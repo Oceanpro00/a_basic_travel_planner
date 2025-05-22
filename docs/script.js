@@ -131,6 +131,112 @@ function createKeywords(activity) {
     return [...new Set(keywords)]; // Remove duplicates
 }
 
+// Helper function to get current photos from the right context
+function getCurrentPhotos() {
+    if (currentArea && currentArea.currentHotel) {
+        return showingRooms ? 
+            (currentArea.currentHotel.roomPhotos || []) : 
+            (currentArea.currentHotel.photos || []);
+    } else if (currentActivity) {
+        return currentActivity.photos || [];
+    } else if (currentArea) {
+        return currentArea.photos || [];
+    }
+    return [];
+}
+
+// Function to create image carousel - FIXED VERSION
+function createImageCarousel(photos) {
+    carouselImages.innerHTML = '';
+    carouselDots.innerHTML = '';
+    currentImageIndex = 0;
+    
+    if (!photos || photos.length === 0) {
+        carouselImages.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f0f0f0; color: #999; font-size: 1.2em;">No images available</div>';
+        // Hide carousel buttons when no photos
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+    }
+    
+    // Create images
+    photos.forEach((photo, index) => {
+        const img = document.createElement('img');
+        img.src = photo;
+        img.alt = currentActivity ? currentActivity.name : '';
+        img.onerror = function() {
+            this.style.display = 'none';
+        };
+        carouselImages.appendChild(img);
+    });
+    
+    // Create dots if more than one image
+    if (photos.length > 1) {
+        photos.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', () => goToImage(index, photos));
+            carouselDots.appendChild(dot);
+        });
+    }
+    
+    updateCarouselButtons(photos);
+}
+
+// Function to go to specific image - FIXED VERSION
+function goToImage(index, photos) {
+    // Use the photos parameter if provided, otherwise try to get from current context
+    const photosArray = photos || getCurrentPhotos();
+    
+    if (!photosArray || photosArray.length === 0) return;
+    
+    // Ensure index is within bounds
+    if (index < 0 || index >= photosArray.length) return;
+    
+    currentImageIndex = index;
+    const translateX = -index * 100;
+    carouselImages.style.transform = `translateX(${translateX}%)`;
+    
+    // Update dots
+    const dots = carouselDots.querySelectorAll('.carousel-dot');
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+    
+    updateCarouselButtons(photosArray);
+}
+
+// Function to update carousel buttons - FIXED VERSION
+function updateCarouselButtons(photos) {
+    const photosArray = photos || getCurrentPhotos();
+    
+    if (!photosArray || photosArray.length <= 1) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    } else {
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
+    }
+}
+
+// Previous image - FIXED VERSION
+function prevImage() {
+    const photosArray = getCurrentPhotos();
+    if (!photosArray || photosArray.length === 0) return;
+    
+    const newIndex = currentImageIndex > 0 ? currentImageIndex - 1 : photosArray.length - 1;
+    goToImage(newIndex, photosArray);
+}
+
+// Next image - FIXED VERSION
+function nextImage() {
+    const photosArray = getCurrentPhotos();
+    if (!photosArray || photosArray.length === 0) return;
+    
+    const newIndex = currentImageIndex < photosArray.length - 1 ? currentImageIndex + 1 : 0;
+    goToImage(newIndex, photosArray);
+}
+
 // Function to show click overlay (unified for areas and activities)
 function showClickOverlay(item, isArea = false) {
     currentActivity = item;
@@ -147,13 +253,13 @@ function showClickOverlay(item, isArea = false) {
         areaOptions.style.display = 'block';
         createAreaOptions(item.options || []);
         
-            // Never show hotel controls on area view
-    hotelControls.style.display = 'none';
+        // Never show hotel controls on area view
+        hotelControls.style.display = 'none';
 
-    // Show hotels section if available
-    if (item.hotels && item.hotels.length > 0) {
-        showHotelsSection(item.hotels);
-    }
+        // Show hotels section if available
+        if (item.hotels && item.hotels.length > 0) {
+            showHotelsSection(item.hotels);
+        }
 
     } else {
         hotelControls.style.display = 'none';
@@ -352,7 +458,7 @@ function hideAllOptionMarkers() {
     });
 }
 
-// Function to toggle between hotel exterior and room photos
+// Function to toggle between hotel exterior and room photos - FIXED VERSION
 function toggleRoomPhotos() {
     if (!currentArea || !currentArea.currentHotel) return;
     
@@ -362,11 +468,13 @@ function toggleRoomPhotos() {
     if (showingRooms) {
         toggleRoomBtn.classList.add('active');
         toggleHotelBtn.classList.remove('active');
-        createImageCarousel(hotel.roomPhotos || []);
+        const roomPhotos = hotel.roomPhotos || [];
+        createImageCarousel(roomPhotos);
     } else {
         toggleRoomBtn.classList.remove('active');
         toggleHotelBtn.classList.add('active');
-        createImageCarousel(hotel.photos || []);
+        const hotelPhotos = hotel.photos || [];
+        createImageCarousel(hotelPhotos);
     }
 }
 
@@ -467,81 +575,6 @@ function cycleToNextStage() {
             showClickOverlay(currentPoint, true);
         }
     }
-}
-
-// Function to create image carousel
-function createImageCarousel(photos) {
-    carouselImages.innerHTML = '';
-    carouselDots.innerHTML = '';
-    currentImageIndex = 0;
-    
-    if (!photos || photos.length === 0) {
-        carouselImages.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f0f0f0; color: #999; font-size: 1.2em;">No images available</div>';
-        return;
-    }
-    
-    // Create images
-    photos.forEach((photo, index) => {
-        const img = document.createElement('img');
-        img.src = photo;
-        img.alt = currentActivity ? currentActivity.name : '';
-        img.onerror = function() {
-            this.style.display = 'none';
-        };
-        carouselImages.appendChild(img);
-    });
-    
-    // Create dots if more than one image
-    if (photos.length > 1) {
-        photos.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-            dot.addEventListener('click', () => goToImage(index));
-            carouselDots.appendChild(dot);
-        });
-    }
-    
-    updateCarouselButtons();
-}
-
-// Function to go to specific image
-function goToImage(index) {
-    if (!currentActivity || !currentActivity.photos) return;
-    
-    currentImageIndex = index;
-    const translateX = -index * 100;
-    carouselImages.style.transform = `translateX(${translateX}%)`;
-    
-    // Update dots
-    const dots = carouselDots.querySelectorAll('.carousel-dot');
-    dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-    });
-    
-    updateCarouselButtons();
-}
-
-// Function to update carousel buttons
-function updateCarouselButtons() {
-    if (!currentActivity || !currentActivity.photos) return;
-    
-    const photoCount = currentActivity.photos.length;
-    prevBtn.style.display = photoCount > 1 ? 'block' : 'none';
-    nextBtn.style.display = photoCount > 1 ? 'block' : 'none';
-}
-
-// Previous image
-function prevImage() {
-    if (!currentActivity || !currentActivity.photos) return;
-    const newIndex = currentImageIndex > 0 ? currentImageIndex - 1 : currentActivity.photos.length - 1;
-    goToImage(newIndex);
-}
-
-// Next image
-function nextImage() {
-    if (!currentActivity || !currentActivity.photos) return;
-    const newIndex = currentImageIndex < currentActivity.photos.length - 1 ? currentImageIndex + 1 : 0;
-    goToImage(newIndex);
 }
 
 // Function to create numbered markers
@@ -749,12 +782,14 @@ addPathPoint(43.0642, 11.6094, "Val d'Orcia",
         {
             name: "Agriturismo Bonello",
             type: "🏡 Agriturismo",
-            description: "Rustic Tuscan farmhouse near Pienza surrounded by fields and cypress trees. Pool, traditional meals, and sunrise views over Val d’Orcia.",
+            description: "Rustic Tuscan farmhouse near Pienza surrounded by fields and cypress trees. Pool, traditional meals, and sunrise views over Val d'Orcia.",
             link: "https://bonello.eu/en/",
             photos: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTflST2RPFzBkoP0NxlYApMAnc9Xpy6oUyiSQ&s",
                 "https://cf.bstatic.com/xdata/images/hotel/max1280x900/114669274.jpg?k=f18788ebcb89bd5097c82d3d260807be8154cfda8e054a1c904be8f656b15932&o=&hp=1"
             ],
-            roomPhotos: ["https://cf.bstatic.com/xdata/images/hotel/max1024x768/550355826.webp?k=baf684b4c375e4c8375a16b300b5553ea7e8bdb7d93176c8b3c2a8eaae349712&o="]
+            roomPhotos: ["https://cf.bstatic.com/xdata/images/hotel/max1024x768/550355826.webp?k=baf684b4c375e4c8375a16b300b5553ea7e8bdb7d93176c8b3c2a8eaae349712&o=",
+                "https://cf.bstatic.com/xdata/images/hotel/max1024x768/550355841.webp?k=02cff73eb00030635c2b361105c4fc31a9fdbf4b1520727b5bcba8fccb926ef9&o="
+            ]
         },
         {
             name: "Cantagrillo Boutique Resort",
