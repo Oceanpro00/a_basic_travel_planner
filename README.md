@@ -36,7 +36,7 @@ This tool is open, portable, and built with simplicity in mind. It works entirel
 
 ## Live Demo
 
-[View Live on GitHub Pages](https://Oceanpro00.github.io/a_basic_travel_planner/docs/)
+[View Live on GitHub Pages](https://oceanpro00.github.io/a_basic_travel_planner/florence/) 
 
 > You can fork this repo, edit `/docs/script.js`, and make your own in no time.
 
