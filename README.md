@@ -1,8 +1,25 @@
-# A Basic Travel Planner
+# Basic Travel Planner
 
-A fully-free, self-hostable, map-based trip planner for visualizing vacations with interactive routing, hotels, and activity highlights. Built to be adapted for any trip, anywhere in the world.
+A clean, self-hosted, interactive travel visualizer built in just 4 focused days.
 
-This example shows a multi-stop trip through Italy, but you can easily swap in your own destinations, descriptions, and photos to create your own.
+This project was created to address the lack of visually intuitive, lightweight, and affordable tools for planning trips. Many existing platforms are either paywalled, confusing, ad-heavy, or limited to static documents that are hard to edit, carry, or use interactively on the go. This planner aims to subvert that.
+
+Built for portfolio demonstration and future growth, it delivers a scalable client-side platform for visualizing multi-stop travel routes using Leaflet.js and plain JavaScript. Users can explore cities, highlight activities, toggle between hotel views, and manage their trip spatially — all in-browser, with no backend required.
+
+While basic JavaScript knowledge or access to an AI assistant (like ChatGPT) is recommended for setup, the system is intentionally straightforward to use. Future versions will include a more robust planner UI, optional AI assistance, and broader travel utilities — while preserving user privacy and browser-based flexibility.
+
+---
+
+## Table of Contents
+
+* [Live Demos](#live-demos)
+* [Features](#features)
+* [Getting Started](#getting-started)
+* [Customize Your Trip](#customize-your-trip)
+* [Tech Stack](#tech-stack)
+* [Project Structure](#project-structure)
+* [Changelog](#changelog)
+* [License](#license)
 
 ---
 
@@ -12,70 +29,77 @@ This example shows a multi-stop trip through Italy, but you can easily swap in y
 
 ![Location Detail](https://raw.githubusercontent.com/Oceanpro00/a_basic_travel_planner/main/assets/location_data.png)
 
-### Start of Route
+### Route and Stage Markers
 
 ![Start of Route](https://raw.githubusercontent.com/Oceanpro00/a_basic_travel_planner/main/assets/route_planning.png)
 
-### Activity Detail Popup
+### Activity Overlay with Tags
 
 ![Activity Detail](https://raw.githubusercontent.com/Oceanpro00/a_basic_travel_planner/main/assets/activity_data.png)
 
----
+## Live Demos
 
-## Purpose
-
-Most travel tools are either:
-
-* Paywalled or filled with ads
-* Tied to rigid platforms
-* Lacking customization or visuals
-
-This tool is open, portable, and built with simplicity in mind. It works entirely in the browser and takes minutes to personalize.
-
----
-
-## Live Demo
-
-[View Live on GitHub Pages](https://oceanpro00.github.io/a_basic_travel_planner/florence/) 
-
-> You can fork this repo, edit `/docs/script.js`, and make your own in no time.
+* **Tuscany Trip Example:** [View Planner](https://oceanpro00.github.io/a_basic_travel_planner/tuscany/)
+* **Minimal Starter Version:** [View Basic Example](https://oceanpro00.github.io/a_basic_travel_planner/example/)
+* **GitHub Repo:** [github.com/Oceanpro00/a\_basic\_travel\_planner](https://github.com/Oceanpro00/a_basic_travel_planner)
 
 ---
 
 ## Features
 
-* Interactive map (Leaflet.js)
-* Cycle through trip segments ("Full Trip", "Stop 1", etc.)
-* Clickable points for:
+* Fully client-side: no backend, no database
+* Map powered by Leaflet.js with custom marker styling
+* Clickable stops, activities, food spots, and must-do highlights
+* Visual legend to filter marker types (Activity, Must-Do, Food)
+* Side panel with:
 
-  * Destinations (number markers)
-  * Activities (star markers)
-  * Hotels (grouped with photos)
-* Popups with:
+  * Image carousel
+  * Description, link, and auto-tagged keywords
+  * Toggle for hotel exterior vs. room views
+* Responsive layout and mobile-ready behavior
 
-  * Carousel photo viewer
-  * Description, tags, booking link
-  * Toggle between hotel exterior & room views
+---
+
+## Getting Started
+
+To reproduce or deploy this project:
+
+1. Clone or fork the repository
+2. Open `/docs/tripData.js`
+
+   * Use `addPathPoint()`, `addActivity()`, `addMustDo()`, and `addFood()`
+3. Open `/docs/index.html` in any browser or deploy via GitHub Pages
+4. Edit `tripTitle` to change the document title
+
+---
+
+## Customize Your Trip
+
+* Modify any location or marker in `tripData.js`
+* Use direct image URLs or local files in `/assets`
+* Add hotels per stop with room and exterior photo options
+* All layout and visual design lives in `styles.css`
+
+📘 Need full documentation? See [`basic_travel_planner_cheatsheet.md`](./basic_travel_planner_cheatsheet.md)
 
 ---
 
 ## Build Notes
 
-This project was created as a quick, personal tool with help from:
+This project was built in just 4 focused days with a mix of AI collaboration and hands-on coding.
 
-* Claude AI (Anthropic) for initial scaffolding and UI logic
-* Local LLMs for code suggestions, cleanup, and live adaptation
-* My own hands-on debugging, styling, and UX decisions
+* **Claude AI** (Anthropic) was used to scaffold early logic and generate UI patterns
+* **ChatGPT** helped rapidly iterate, debug, and explore refactors
+* **Custom implementation** handled interaction logic, UX polish, marker handling, and mobile responsiveness
 
-The goal was simply to get a working visual planner that can be customized fast.
+The result is a lightweight planner that can be easily customized or extended, serving as both a technical portfolio piece and a base for future travel tools.
 
 ---
 
 ## Tech Stack
 
-* HTML, CSS, JavaScript (Vanilla)
-* Leaflet.js (map)
-* No frameworks or backend
+* HTML + CSS + JavaScript (no frameworks)
+* Leaflet.js for map rendering
 * Hosted via GitHub Pages
 
 ---
@@ -83,38 +107,55 @@ The goal was simply to get a working visual planner that can be customized fast.
 ## Project Structure
 
 ```
+CHANGELOG.md         # Optional separate changelog (matches README entries)
 /docs
-  ├── index.html        # Main app
-  ├── script.js         # Core logic
-  ├── styles.css        # UI styling
-/assets
-  ├── location_data.png
-  ├── route_planning.png
-  └── activity_data.png
+├── index.html        # Main app file
+├── script.js         # App logic & interactivity
+├── styles.css        # All styling & animations
+├── tripData.js       # Trip configuration
+/assets               # Static images (optional)
 ```
 
-Set GitHub Pages to deploy from `/docs`.
+Set GitHub Pages to deploy from the `/docs` folder.
 
 ---
 
-## Customize It
+## Changelog
 
-To make this your own:
+### v0.3.0 – May 25, 2025
 
-* Replace `addPathPoint()` and `addActivity()` calls in `script.js`
-* Update location names, coordinates, descriptions, photos
-* Optionally add your own hotel or tag logic
+* Refactored marker logic to simplify visibility and interaction
+* Removed deprecated area options logic
+* Improved photo carousel, error handling, and image transitions
+* Overhauled cheat sheet and added auto keyword tagging
 
-Want multiple routes? Custom marker icons? It's all just code.
+### v0.2.0 – May 23, 2025
+
+* Added filterable legend by marker type (Activity, Must-Do, Food)
+* Introduced cycle button for navigating path points
+* Enabled hotel overlays with room/exterior photo toggle
+
+### v0.1.0 – May 21, 2025
+
+* Initial build with Leaflet map, core marker types, and popups
+* Implemented numbered stops, path routing, and side panel interaction
 
 ---
 
-## Credits
+## Future Ideas
 
-* Maps: OpenStreetMap
-* Photos: Unsplash, Booking.com, and tourism websites
-* AI Tools: Claude AI, Mistral, OpenChat
+The current version is a strong foundation, but future iterations may include:
+
+* A drag-and-drop UI planner for trip building
+* AI-generated day-by-day itineraries based on your stops
+* Optional date & timeline integration
+* Theme support (dark mode, city-specific looks)
+* Export to printable PDF or shareable links
 
 ---
 
-This was built independently as a personal tool using AI-assisted development. Use or adapt it however you’d like.
+## License
+
+This project was built independently with the help of Claude AI and ChatGPT, alongside custom logic and manual iteration. It is open-source and shared for demonstration and inspiration purposes.
+
+All rights to commercial use are reserved by the original creator. You may fork, adapt, or explore the project for learning or personal experimentation, but **you may not use it commercially or redistribute it** without written permission.

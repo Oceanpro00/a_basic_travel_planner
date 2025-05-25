@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">A Basic Travel Planner</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin="" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="map"></div>
+    
+    <!-- Cycle Navigation Button -->
+    <div class="cycle-nav">
+        <button id="cycle-btn" class="cycle-button">
+            <span id="cycle-stage">Full Trip</span>
+            <span class="cycle-arrow">→</span>
+        </button>
+    </div>
+    
+    <!-- Legend for marker types -->
+    <div class="map-legend">
+        <div class="legend-item" data-type="star">
+            <span class="legend-icon">⭐</span>
+            <span class="legend-text">Activities</span>
+        </div>
+        <div class="legend-item" data-type="heart">
+            <span class="legend-icon heart">❤️</span>
+            <span class="legend-text">Must Do</span>
+        </div>
+        <div class="legend-item" data-type="food">
+            <span class="legend-icon">🍕</span>
+            <span class="legend-text">Food & Dining</span>
+        </div>
+    </div>
+    
+    <!-- Side panel for hotels and activities -->
+    <div id="click-overlay" class="click-overlay">
+        <div class="overlay-header">
+            <button id="close-overlay" class="close-button">×</button>
+        </div>
+        <div class="click-content">
+            <div class="image-carousel">
+                <div class="carousel-container">
+                    <button class="carousel-btn prev-btn" id="prev-btn">‹</button>
+                    <div class="carousel-images" id="carousel-images">
+                        <!-- Images will be populated here -->
+                    </div>
+                    <button class="carousel-btn next-btn" id="next-btn">›</button>
+                </div>
+                <div class="carousel-dots" id="carousel-dots">
+                    <!-- Dots will be populated here -->
+                </div>
+            </div>
+            <div class="activity-nav">
+                <button id="prev-activity"> ← </button>
+                <button id="next-activity"> → </button>
+              </div>              
+            <div class="click-text">
+                <h2 id="click-title"></h2>
+                <div class="click-meta">
+                    <span id="click-type" class="click-type"></span>
+                    <div id="click-keywords" class="click-keywords"></div>
+                </div>
+                <p id="click-description"></p>
+                
+                <!-- Hotel-specific controls -->
+                <div id="hotel-controls" class="hotel-controls">
+                    <button id="toggle-room-btn" class="hotel-toggle-btn">🏢 Show Room Photos</button>
+                    <button id="toggle-hotel-btn" class="hotel-toggle-btn active">🏨 Show Hotel Exterior</button>
+                </div>
+                
+                <!-- Area options -->
+                <div id="area-options" class="area-options">
+                    <div id="option-toggles" class="option-toggles">
+                        <!-- Dynamic option buttons will be added here -->
+                    </div>
+                </div>
+                
+                <a id="click-link" href="" target="_blank" class="visit-link">Visit Website →</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+    <script src="script.js"></script>  
+    <script src="tripData.js"></script>            
+</body>
+</html>
