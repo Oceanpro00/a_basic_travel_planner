@@ -7,7 +7,7 @@ if (typeof L === 'undefined') {
 }
 
 // Initialize the map
-const map = L.map('map').setView([43.2, 11.0], 8); // Centered on Tuscany, Italy
+const map = L.map('map');
 
 // Add the map tiles
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -27,6 +27,7 @@ let cycleStages = ["Full Trip"];
 function generateCycleStages() {
     cycleStages = ["Full Trip", ...pathPoints.map(p => p.name)];
 }
+
 const cycleBtn = document.getElementById('cycle-btn');
 const cycleStage = document.getElementById('cycle-stage');
 
@@ -58,6 +59,12 @@ let currentHotel = null;
 let currentArea = null;
 let showingRooms = false;
 let activeOptions = new Set();
+let currentLegendFilter = null;
+
+// Zoom Listener - Show/hide markers based on zoom level
+map.on('zoomend', () => {
+    updateMarkerVisibility();
+});
 
 // Function to calculate distance between two points
 function getDistance(lat1, lng1, lat2, lng2) {
@@ -86,21 +93,50 @@ function getActivitySize(activity, currentPathPoint) {
     return 'size-tiny';
 }
 
-// Function to update activity visibility and size based on current hotel
+// Function to update activity visibility and size based on current path point
 function updateActivityDisplay(showAll = true, currentPathPoint = null) {
+    const zoom = map.getZoom();
+    
     activities.forEach(activity => {
         const marker = activity.marker;
         const markerElement = marker.getElement();
-        const markerIcon = markerElement.querySelector('.star-marker, .heart-marker, .food-marker');
+        if (!markerElement) return;
+        
+        const markerIcon = markerElement.querySelector(`.${activity.markerType}-marker`);
+        if (!markerIcon) return;
+        
+        // Must-do markers (hearts) are always visible
+        if (activity.markerType === 'heart') {
+            markerElement.classList.remove('hidden');
+            markerIcon.className = `${activity.markerType}-marker size-medium`;
+            return;
+        }
         
         if (showAll) {
-            markerElement.classList.remove('hidden');
-            // Reset to original size based on marker type
+            // Full trip mode - use same logic as updateMarkerVisibility
+            const shouldShowByZoom = zoom >= 14;
+            const isActivelyFiltered = activeLegendFilters.has(activity.markerType);
+            const noFiltersActive = activeLegendFilters.size === 0;
+            
+            if (isActivelyFiltered || (noFiltersActive && shouldShowByZoom)) {
+                markerElement.classList.remove('hidden');
+            } else {
+                markerElement.classList.add('hidden');
+            }
+            
             markerIcon.className = `${activity.markerType}-marker size-medium`;
         } else if (currentPathPoint) {
-            markerElement.classList.remove('hidden');
-            const size = getActivitySize(activity, currentPathPoint);
-            markerIcon.className = `${activity.markerType}-marker ${size}`;
+            // Stage mode - show based on proximity and active filters
+            const isActivelyFiltered = activeLegendFilters.has(activity.markerType);
+            const noFiltersActive = activeLegendFilters.size === 0;
+            
+            if (isActivelyFiltered || noFiltersActive) {
+                markerElement.classList.remove('hidden');
+                const size = getActivitySize(activity, currentPathPoint);
+                markerIcon.className = `${activity.markerType}-marker ${size}`;
+            } else {
+                markerElement.classList.add('hidden');
+            }
         } else {
             markerElement.classList.add('hidden');
         }
@@ -123,18 +159,7 @@ function createKeywords(activity) {
     if (type.includes('Island')) keywords.push('Ferry', 'Day Trip');
     if (type.includes('Hotel') || type.includes('Stop')) keywords.push('Accommodation', 'Rest Stop');
     if (type.includes('Must Do')) keywords.push('Priority', 'Essential');
-    
-    // Extract keywords from description
-    if (description.includes('Renaissance')) keywords.push('Renaissance');
-    if (description.includes('medieval') || description.includes('Medieval')) keywords.push('Medieval');
-    if (description.includes('thermal') || description.includes('Thermal')) keywords.push('Spa');
-    if (description.includes('UNESCO')) keywords.push('UNESCO');
-    if (description.includes('wine') || description.includes('Wine')) keywords.push('Wine');
-    if (description.includes('beach') || description.includes('Beach')) keywords.push('Beach');
-    if (description.includes('hiking') || description.includes('Hiking')) keywords.push('Hiking');
-    if (description.includes('panoramic') || description.includes('views')) keywords.push('Scenic Views');
-    if (description.includes('pasta') || description.includes('pizza')) keywords.push('Italian Cuisine');
-    if (description.includes('gelato')) keywords.push('Dessert');
+    if (type.includes('Cafe') || type.includes('Coffee')) keywords.push('Coffee', 'Relaxation');
     
     return [...new Set(keywords)]; // Remove duplicates
 }
@@ -154,58 +179,57 @@ function getCurrentPhotos() {
 }
 
 function createImageCarousel(photos) {
-carouselImages.innerHTML = '';
-carouselDots.innerHTML = '';
-currentImageIndex = 0;
+    carouselImages.innerHTML = '';
+    carouselDots.innerHTML = '';
+    currentImageIndex = 0;
 
-const validPhotos = photos.filter(photo => typeof photo === 'string' && photo.trim() !== '');
+    const validPhotos = photos.filter(photo => typeof photo === 'string' && photo.trim() !== '');
 
-if (validPhotos.length === 0) {
-    const placeholder = document.createElement('div');
-    placeholder.textContent = 'No photos available';
-    placeholder.style.display = 'flex';
-    placeholder.style.alignItems = 'center';
-    placeholder.style.justifyContent = 'center';
-    placeholder.style.height = '100%';
-    carouselImages.appendChild(placeholder);
-    prevBtn.style.display = 'none';
-    nextBtn.style.display = 'none';
-    carouselDots.style.display = 'none';
-    return;
-}
+    if (validPhotos.length === 0) {
+        const placeholder = document.createElement('div');
+        placeholder.textContent = 'No photos available';
+        placeholder.style.display = 'flex';
+        placeholder.style.alignItems = 'center';
+        placeholder.style.justifyContent = 'center';
+        placeholder.style.height = '100%';
+        carouselImages.appendChild(placeholder);
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        carouselDots.style.display = 'none';
+        return;
+    }
 
-validPhotos.forEach((photo, index) => {
-    const img = document.createElement('img');
-    img.src = photo;
-    img.alt = currentActivity ? currentActivity.name : '';
-    img.onerror = function () {
-    this.remove();
-    };
-    carouselImages.appendChild(img);
-});
-
-// Hide navigation if only 1 photo
-if (validPhotos.length === 1) {
-    prevBtn.style.display = 'none';
-    nextBtn.style.display = 'none';
-    carouselDots.style.display = 'none';
-} else {
-    prevBtn.style.display = '';
-    nextBtn.style.display = '';
-    carouselDots.style.display = 'flex';
-
-    validPhotos.forEach((_, index) => {
-    const dot = document.createElement('div');
-    dot.classList.add('carousel-dot');
-    if (index === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => goToImage(index));
-    carouselDots.appendChild(dot);
+    validPhotos.forEach((photo, index) => {
+        const img = document.createElement('img');
+        img.src = photo;
+        img.alt = currentActivity ? currentActivity.name : '';
+        img.onerror = function () {
+            this.remove();
+        };
+        carouselImages.appendChild(img);
     });
-}
 
-carouselImages.style.transform = `translateX(0%)`;
+    // Hide navigation if only 1 photo
+    if (validPhotos.length === 1) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        carouselDots.style.display = 'none';
+    } else {
+        prevBtn.style.display = '';
+        nextBtn.style.display = '';
+        carouselDots.style.display = 'flex';
+
+        validPhotos.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('carousel-dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToImage(index));
+            carouselDots.appendChild(dot);
+        });
+    }
+
+    carouselImages.style.transform = `translateX(0%)`;
 }
-  
 
 // Function to go to specific image
 function goToImage(index, photos) {
@@ -332,7 +356,7 @@ function showClickOverlay(item, isArea = false) {
         map.setView([item.lat, item.lng], 14);
     }
 
-    // SIMPLIFIED: Just make the selected marker bigger, don't touch visibility or highlighting
+    // Make the selected marker bigger
     if (!isArea && item.markerType) {
         activities.forEach(activity => {
             const markerElement = activity.marker.getElement();
@@ -341,24 +365,13 @@ function showClickOverlay(item, isArea = false) {
             if (!icon) return;
             
             if (activity === item) {
-                // Selected marker: just make it large (NO highlighting, NO visibility changes)
                 icon.classList.remove('size-small', 'size-medium', 'size-tiny');
                 icon.classList.add('size-large');
-                console.log('Made marker large:', activity.name, markerElement); // Debug log
             } else if (activity.markerType === item.markerType) {
-                // Same type markers: make them smaller
                 icon.classList.remove('size-large', 'size-medium', 'size-tiny');
                 icon.classList.add('size-small');
             }
         });
-    }
-    
-    // Debug: Log the current marker state
-    if (!isArea && item.markerType) {
-        const selectedMarkerElement = item.marker.getElement();
-        console.log('Selected marker element:', selectedMarkerElement);
-        console.log('Selected marker classes:', selectedMarkerElement?.className);
-        console.log('Selected marker visible:', !selectedMarkerElement?.classList.contains('hidden'));
     }
 }
 
@@ -567,29 +580,19 @@ function hideClickOverlay() {
         hotelsSection.remove();
     }
 
-    // Clear highlights
-    document.querySelectorAll('.highlighted-marker').forEach(el => el.classList.remove('highlighted-marker'));
-
-    // Reset ALL activity markers to medium size and ensure they're visible
+    // Reset ALL activity markers to medium size
     activities.forEach(activity => {
         const markerElement = activity.marker.getElement();
         const icon = markerElement?.querySelector(`.${activity.markerType}-marker`);
         
         if (icon) {
-            // Remove all size classes and hidden state
-            icon.classList.remove('size-large', 'size-small', 'size-tiny', 'hidden');
+            icon.classList.remove('size-large', 'size-small', 'size-tiny');
             icon.classList.add('size-medium');
         }
-        
-        // Remove highlight from marker element
-        markerElement?.classList.remove('highlighted-marker');
     });
     
-    // Reset path point markers
-    pathPoints.forEach(point => {
-        const markerElement = point.marker.getElement();
-        markerElement?.classList.remove('highlighted-marker');
-    });
+    // Update visibility based on current state
+    updateActivityDisplay(currentCycleIndex === 0);
 }
 
 // Function to update path point display and activity for cycling
@@ -653,7 +656,6 @@ function cycleToNextStage() {
             updateActivityDisplay(false, currentPoint);
             updatePathDisplay(false);
             
-            // Only NOW hide option markers since we're switching to a path point context
             hideAllOptionMarkers();
             
             map.setView([currentPoint.lat, currentPoint.lng], 11);
@@ -696,6 +698,16 @@ function createHeartMarker() {
 function createFoodMarker() {
     return L.divIcon({
         html: '<div class="food-marker size-medium">🍕</div>',
+        className: 'custom-marker',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+}
+
+// Function to create cafe markers
+function createCafeMarker() {
+    return L.divIcon({
+        html: '<div class="cafe-marker size-medium">☕</div>',
         className: 'custom-marker',
         iconSize: [30, 30],
         iconAnchor: [15, 15]
@@ -760,15 +772,11 @@ function addActivity(lat, lng, name, type, photos, link, description, optionId =
         markerType: 'star'
     };
     
-    // Only hide if it has an optionId (area-specific activities)
-    if (optionId) {
-        setTimeout(() => {
-            const markerElement = marker.getElement();
-            if (markerElement) {
-                markerElement.classList.add('hidden'); // Hide the entire marker element, not just the icon
-            }
-        }, 0);
-    }    
+    // Immediately hide non-heart markers
+    const markerElement = marker.getElement();
+    if (markerElement) {
+        markerElement.classList.add('hidden');
+    }
     
     marker.on('click', function() {
         showClickOverlay(activity, false);
@@ -793,7 +801,7 @@ function addActivity(lat, lng, name, type, photos, link, description, optionId =
     activities.push(activity);
 }
 
-// NEW FUNCTION: Add a must-do activity (heart marker)
+// Function to add a must-do activity (heart marker)
 function addMustDo(lat, lng, name, type, photos, link, description, optionId = null) {
     const marker = L.marker([lat, lng], {
         icon: createHeartMarker()
@@ -818,14 +826,7 @@ function addMustDo(lat, lng, name, type, photos, link, description, optionId = n
         markerType: 'heart'
     };
     
-    if (optionId) {
-        setTimeout(() => {
-            const markerElement = marker.getElement();
-            if (markerElement) {
-                markerElement.classList.add('hidden'); // Hide entire marker, not just icon
-            }
-        }, 0);
-    } 
+    // Must-dos are visible by default (unless filtered out by legend)
     
     marker.on('click', function() {
         showClickOverlay(activity, false);
@@ -850,7 +851,7 @@ function addMustDo(lat, lng, name, type, photos, link, description, optionId = n
     activities.push(activity);
 }
 
-// NEW FUNCTION: Add a food/restaurant activity (fork marker)
+// Function to add a food/restaurant activity (food marker)
 function addFood(lat, lng, name, type, photos, link, description, optionId = null) {
     const marker = L.marker([lat, lng], {
         icon: createFoodMarker()
@@ -875,14 +876,11 @@ function addFood(lat, lng, name, type, photos, link, description, optionId = nul
         markerType: 'food'
     };
     
-    if (optionId) {
-        setTimeout(() => {
-            const markerElement = marker.getElement();
-            if (markerElement) {
-                markerElement.classList.add('hidden'); // Hide entire marker, not just icon
-            }
-        }, 0);
-    }     
+    // Immediately hide non-heart markers
+    const markerElement = marker.getElement();
+    if (markerElement) {
+        markerElement.classList.add('hidden');
+    }
     
     marker.on('click', function() {
         showClickOverlay(activity, false);
@@ -904,6 +902,60 @@ function addFood(lat, lng, name, type, photos, link, description, optionId = nul
         foodElement.style.zIndex = '';
     });
     
+    activities.push(activity);
+}
+
+// Function to add a cafe (cafe marker)
+function addCafe(lat, lng, name, type, photos, link, description, optionId = null) {
+    const marker = L.marker([lat, lng], {
+        icon: createCafeMarker()
+    }).addTo(map);
+
+    if (typeof photos === 'string') {
+        photos = photos ? [photos] : [];
+    } else if (!Array.isArray(photos)) {
+        photos = [];
+    }
+
+    const activity = {
+        name: name,
+        type: `☕ ${type}`,
+        photos: photos,
+        link: link,
+        description: description,
+        lat: lat,
+        lng: lng,
+        optionId: optionId,
+        marker: marker,
+        markerType: 'cafe'
+    };
+
+    // Immediately hide non-heart markers
+    const markerElement = marker.getElement();
+    if (markerElement) {
+        markerElement.classList.add('hidden');
+    }
+
+    marker.on('click', function() {
+        showClickOverlay(activity, false);
+    });
+    
+    marker.on('mouseover', function() {
+        const markerElement = marker.getElement();
+        const cafeElement = markerElement.querySelector('.cafe-marker');
+        if (!cafeElement.classList.contains('size-large')) {
+            cafeElement.style.transform = 'scale(1.4)';
+            cafeElement.style.zIndex = '1000';
+        }
+    });
+    
+    marker.on('mouseout', function() {
+        const markerElement = marker.getElement();
+        const cafeElement = markerElement.querySelector('.cafe-marker');
+        cafeElement.style.transform = '';
+        cafeElement.style.zIndex = '';
+    });
+
     activities.push(activity);
 }
 
@@ -943,11 +995,36 @@ function drawPath() {
 
 // Function to fit the map to show all locations
 function fitMapToLocations() {
-    const allMarkers = [...pathPoints.map(p => p.marker), ...activities.map(a => a.marker)];
-    if (allMarkers.length > 0) {
-        const group = new L.featureGroup(allMarkers);
-        map.fitBounds(group.getBounds().pad(0.1));
+    if (pathPoints.length === 0) {
+        // No path points - set default minimum zoom
+        map.setView([43.7696, 11.2558], 13); // Default to Florence center at zoom 13
+        return;
     }
+    
+    // Create bounds from path points
+    const bounds = L.latLngBounds();
+    pathPoints.forEach(point => {
+        bounds.extend([point.lat, point.lng]);
+    });
+    
+    const paddingPercent = 0.125; // 12.5% buffer space (between 10-15%)
+    const absoluteMinZoom = 13; // Never zoom in closer than this
+    
+    // First, fit bounds with padding and no zoom restrictions to see what zoom level is needed
+    map.fitBounds(bounds.pad(paddingPercent));
+    
+    // Check what zoom level was calculated
+    setTimeout(() => {
+        const calculatedZoom = map.getZoom();
+        
+        if (calculatedZoom > absoluteMinZoom) {
+            // If calculated zoom is closer than our minimum, set it to minimum
+            map.setZoom(absoluteMinZoom);
+        } else {
+            // If calculated zoom is wider than our minimum, keep it (allows all points to be visible)
+            // The fitBounds already set the appropriate zoom level
+        }
+    }, 100);
 }
 
 // Event listeners
@@ -976,41 +1053,58 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-let currentLegendFilter = null;
+// Legend filter functionality
+let activeLegendFilters = new Set(); // Track multiple active filters
 
 document.querySelectorAll('.legend-item').forEach(item => {
     item.addEventListener('click', () => {
         const type = item.getAttribute('data-type');
         const wasActive = item.classList.contains('active');
 
-        // Clear all filters
-        document.querySelectorAll('.legend-item').forEach(i => i.classList.remove('active'));
-        currentLegendFilter = null;
-
-        if (!wasActive) {
-            // Apply new filter
+        if (wasActive) {
+            // Remove from active filters
+            item.classList.remove('active');
+            activeLegendFilters.delete(type);
+        } else {
+            // Add to active filters
             item.classList.add('active');
-            currentLegendFilter = type;
+            activeLegendFilters.add(type);
         }
 
-        // Toggle marker visibility
-        activities.forEach(activity => {
-            const markerElement = activity.marker.getElement();
-            const icon = markerElement?.querySelector(`.${activity.markerType}-marker`);
-            
-            if (!currentLegendFilter || activity.markerType === currentLegendFilter) {
-                markerElement.classList.remove('hidden');
-                if (icon) {
-                    icon.classList.remove('hidden');
-                }
-            } else {
-                markerElement.classList.add('hidden');
-            }
-        });
-
-        updatePathPointDisplay(!currentLegendFilter);
+        // Update marker visibility based on active filters
+        updateMarkerVisibility();
     });
 });
+
+// New function to handle marker visibility with multiple filters
+function updateMarkerVisibility() {
+    const zoom = map.getZoom();
+    
+    activities.forEach(activity => {
+        const markerElement = activity.marker.getElement();
+        if (!markerElement) return;
+        
+        // Must-do markers (hearts) are always visible - skip filtering
+        if (activity.markerType === 'heart') {
+            markerElement.classList.remove('hidden');
+            return;
+        }
+        
+        // Check visibility conditions
+        const shouldShowByZoom = zoom >= 14; // Zoom threshold for auto-showing
+        const isActivelyFiltered = activeLegendFilters.has(activity.markerType); // User clicked this type
+        const noFiltersActive = activeLegendFilters.size === 0; // No legend filters active
+        
+        // Show marker if:
+        // 1. User specifically selected this type in legend (overrides zoom), OR
+        // 2. No filters are active AND zoom level is sufficient
+        if (isActivelyFiltered || (noFiltersActive && shouldShowByZoom)) {
+            markerElement.classList.remove('hidden');
+        } else {
+            markerElement.classList.add('hidden');
+        }
+    });
+}
 
 // Fit the map to show all locations once everything is loaded
 setTimeout(() => {
@@ -1018,7 +1112,7 @@ setTimeout(() => {
     console.log('Map initialized with', pathPoints.length, 'path points and', activities.length, 'activities');
 }, 100);
 
-// 🔧 Set the page <title> and visible heading based on the user's trip title defined in tripData.js
+// Set the page <title> and visible heading based on the user's trip title defined in tripData.js
 document.addEventListener("DOMContentLoaded", function () {
     if (typeof tripTitle === 'string') {
         document.title = tripTitle;

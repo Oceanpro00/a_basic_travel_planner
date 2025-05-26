@@ -1,12 +1,15 @@
 # Basic Travel Planner
 
-A clean, self-hosted, interactive travel visualizer built in just 4 focused days.
+**Basic Travel Planner** is a modular, self-hosted travel visualization tool for mapping multi-stop trips with rich detail. Built entirely with Leaflet.js and vanilla JavaScript, it enables creators, travelers, and developers to design flexible, interactive itineraries with **zero backend dependencies**.
 
-This project was created to address the lack of visually intuitive, lightweight, and affordable tools for planning trips. Many existing platforms are either paywalled, confusing, ad-heavy, or limited to static documents that are hard to edit, carry, or use interactively on the go. This planner aims to subvert that.
+This project aims to offer an elegant alternative to bloated, ad-ridden, or paywalled travel planning tools. With it, you can:
 
-Built for portfolio demonstration and future growth, it delivers a scalable client-side platform for visualizing multi-stop travel routes using Leaflet.js and plain JavaScript. Users can explore cities, highlight activities, toggle between hotel views, and manage their trip spatially — all in-browser, with no backend required.
+- Highlight cities and must-see locations
+- Showcase restaurants, cafes, activities, and hotels
+- Visually plan routes and stages
+- Present immersive, image-rich trip previews
 
-While basic JavaScript knowledge or access to an AI assistant (like ChatGPT) is recommended for setup, the system is intentionally straightforward to use. Future versions will include a more robust planner UI, optional AI assistance, and broader travel utilities — while preserving user privacy and browser-based flexibility.
+Whether you're crafting a travel journal, pitching a trip idea, or building a personal trip site, this planner is adaptable, extendable, and fully offline-capable.
 
 ---
 
@@ -58,6 +61,13 @@ While basic JavaScript knowledge or access to an AI assistant (like ChatGPT) is 
   * Toggle for hotel exterior vs. room views
 * Responsive layout and mobile-ready behavior
 
+* Use this tool to:
+
+- Share personalized trip plans with friends or clients
+- Build region-specific travel previews
+- Prototype travel ideas for content creation or editorial pitches
+
+
 ---
 
 ## Getting Started
@@ -86,7 +96,7 @@ To reproduce or deploy this project:
 
 ## Build Notes
 
-This project was built in just 4 focused days with a mix of AI collaboration and hands-on coding.
+This project was developed through iterative prototyping and AI-supported collaboration. It blends automation with handcrafted logic to offer a smooth user experience across devices.
 
 * **Claude AI** (Anthropic) was used to scaffold early logic and generate UI patterns
 * **ChatGPT** helped rapidly iterate, debug, and explore refactors
@@ -120,25 +130,17 @@ Set GitHub Pages to deploy from the `/docs` folder.
 
 ---
 
-## Changelog
+## Update
 
-### v0.3.0 – May 25, 2025
+### v0.4.0 – May 26, 2025
 
-* Refactored marker logic to simplify visibility and interaction
-* Removed deprecated area options logic
-* Improved photo carousel, error handling, and image transitions
-* Overhauled cheat sheet and added auto keyword tagging
-
-### v0.2.0 – May 23, 2025
-
-* Added filterable legend by marker type (Activity, Must-Do, Food)
-* Introduced cycle button for navigating path points
-* Enabled hotel overlays with room/exterior photo toggle
-
-### v0.1.0 – May 21, 2025
-
-* Initial build with Leaflet map, core marker types, and popups
-* Implemented numbered stops, path routing, and side panel interaction
+- Introduced 🟨 zoom-level visibility logic (zoom in to reveal activities/food/cafes)
+- New marker type: ☕ Cafe (added support, icon, filter, and behavior)
+- Map auto-centering now dynamically fits all path points on load
+- Side panel carousel now better handles missing/invalid images
+- Rewritten developer cheat sheet with detailed usage breakdown
+- Refined mobile responsiveness and scaling behavior
+- Minor fixes for overlay transitions and marker z-index stacking
 
 ---
 

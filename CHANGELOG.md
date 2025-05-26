@@ -4,6 +4,29 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
+## v0.4.0 – May 26, 2025
+
+### 🚀 Features
+
+- **Zoom-based visibility system:** Non-primary markers (Activities ⭐, Food 🍕, Cafes ☕) now dynamically appear or hide based on zoom level (`zoom >= 12`).
+- **New marker type – ☕ Cafes:** Added support for cafes as a distinct marker type with its own icon, filter toggle, and `addCafe()` function.
+- **Dynamic auto-centering:** The map now fits to the bounds of all path points at load, replacing the static center point.
+- **Independent marker filtering:** The legend now allows toggling each marker type (⭐ / ❤️ / 🍕 / ☕) individually, improving readability and control.
+
+### 🧪 Refactors & Improvements
+
+- **Improved photo handling:** Fixed edge cases where images failed to render due to invalid or empty photo arrays. Added fallback logic for missing images.
+- **Overlay UI enhancements:** Reordered elements in the detail overlay for clarity, including placing the "Visit Website" button above hotel listings.
+- **Cleaner mobile behavior:** Adjusted z-index and marker scaling to improve touch interaction and prevent overlap.
+
+### 📝 Documentation
+
+- **Updated `basic_travel_planner_cheatsheet.md`:** Reorganized layout, added table of contents, and included all new marker functions and visibility logic.
+- **Improved README intro:** Refined project description to better highlight use cases, modular design, and privacy-friendly implementation.
+- **Added visibility system notes:** New default marker visibility and zoom behavior explained in both cheat sheet and README.
+
+---
+
 ## v0.3.0 – May 25, 2025
 
 ### ✨ Refactors & Improvements

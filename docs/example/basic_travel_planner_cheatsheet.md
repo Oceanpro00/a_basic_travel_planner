@@ -1,4 +1,8 @@
-# Italian Vacation Map – Developer Cheat Sheet
+# 🇮🇹 Italian Vacation Map – Developer Cheat Sheet
+
+> This cheat sheet supports the **Basic Travel Planner** – a modular Leaflet-based platform for visualizing multi-stop trips. Use it to quickly customize trip routes, showcase regional highlights, and create interactive, image-driven itineraries.
+
+---
 
 ## 📑 Table of Contents
 
@@ -11,233 +15,226 @@
   * [Activities](#2-activities--yellow-star-markers)
   * [Must-Dos](#3-must-dos--red-heart-markers)
   * [Food](#4-restaurants--food--orange-food-markers)
+  * [Cafes](#5-cafes--coffee-markers)
 * [🏨 Add Hotels to Path Points](#-add-hotels-to-path-points)
-* [🎛 Legend Filter](#-legend-filter-bottom-left)
+* [🎛 Legend Filter (Bottom Left)](#-legend-filter-bottom-left)
 * [↺ Cycle Button](#-cycle-button-top-center)
 * [⬅️➡️ Marker Navigation](#️-marker-navigation)
 * [🖼 Photo Carousel](#-photo-carousel)
 * [🏷️ Auto-Generated Keywords](#️-auto-generated-keywords)
 * [⚙️ Marker Classes (CSS)](#️-marker-classes-css)
-* [🧪 Dev Utility Functions](#-dev-utility-functions-scriptjs)
+* [🧪 Dev Utility Functions (scriptjs)](#-dev-utility-functions-scriptjs)
 * [📐 How to Find Coordinates](#-how-to-find-coordinates)
 * [🛠️ What You Can Customize](#️-what-you-can-customize)
 * [🧯 Troubleshooting Tips](#-troubleshooting-tips)
 * [🧪 Sample Code Snippet](#-sample-code-snippet)
 * [🗟 Legend Symbols](#-legend-symbols)
 
-> This cheat sheet supports the **Basic Travel Planner** – a modular Leaflet-based platform for visualizing multi-stop trips. Use it to quickly customize trip routes, showcase regional highlights, and create interactive, image-driven itineraries.
-
 ---
 
 ## 🔗 Links
 
-* **GitHub Repository:** [github.com/Oceanpro00/a\_basic\_travel\_planner](https://github.com/Oceanpro00/a_basic_travel_planner)
-* **Live Demo (Full Tuscany Trip):** [oceanpro00.github.io/a\_basic\_travel\_planner/tuscany](https://oceanpro00.github.io/a_basic_travel_planner/tuscany/)
-* **Live Demo (Minimal Example):** [oceanpro00.github.io/a\_basic\_travel\_planner/example](https://oceanpro00.github.io/a_basic_travel_planner/example/)
+* **GitHub Repo:** [github.com/Oceanpro00/a\_basic\_travel\_planner](https://github.com/Oceanpro00/a_basic_travel_planner)
+* **Live Demo (Full Tuscany Trip):** [Tuscany Planner](https://oceanpro00.github.io/a_basic_travel_planner/tuscany/)
+* **Live Demo (Minimal Example):** [Minimal Example](https://oceanpro00.github.io/a_basic_travel_planner/example/)
 
 ---
 
 ## 🚀 Getting Started
 
-1. **Open `/tripData.js`**
-   Define all trip content here using simple JavaScript functions.
-
-2. **Add a path point (main trip stop):**
+1. Open `tripData.js` – define all trip content using provided marker functions.
+2. Add locations using:
 
    ```js
    addPathPoint(lat, lng, "Stop Name", "Description", ["photo.jpg"], "https://link.com");
    ```
-
-3. **Preview in Browser**
-   Open `/index.html` in your browser or deploy via GitHub Pages.
+3. Open `index.html` locally or deploy via GitHub Pages to view the map.
 
 ---
 
 ## 🗂️ File Structure
 
-* **index.html** – Core layout + script imports
-* **styles.css** – Complete styling and UI behavior
-* **script.js** – Marker creation, map logic, and interaction handling
-* **tripData.js** – Where you define all trip data manually
+| File          | Purpose                                               |
+| ------------- | ----------------------------------------------------- |
+| `index.html`  | Base layout and references to scripts/styles          |
+| `styles.css`  | All visuals, including markers and sidebar behavior   |
+| `script.js`   | Core logic: interactivity, overlays, filtering, zoom  |
+| `tripData.js` | The full trip plan – stops, activities, hotels, links |
 
 ---
 
 ## 📍 How to Add Locations
 
-### 1. Path Points (📍 Red numbered markers)
+### 1. Path Points – Red Numbered Markers (📍)
 
 ```js
-addPathPoint(lat, lng, "Stage Name",
-    "Description",
-    ["photo1.jpg"],
-    "https://website.com",
-    [/* optional hotel list */]);
+addPathPoint(lat, lng, "City Name", "Overview", ["photo.jpg"], "link", [hotels]);
 ```
 
-### 2. Activities (⭐ Yellow star markers)
+### 2. Activities – Yellow Star Markers (⭐)
 
 ```js
-addActivity(lat, lng, "Activity Name", "Type",
-    ["photo1.jpg"],
-    "https://link.com",
-    "Description");
+addActivity(lat, lng, "Attraction", "Type", ["img.jpg"], "link", "Description");
 ```
 
-### 3. Must-Dos (❤️ Red heart markers)
+### 3. Must-Dos – Red Heart Markers (❤️)
 
 ```js
-addMustDo(lat, lng, "Must See", "Type",
-    ["photo1.jpg"],
-    "https://link.com",
-    "Why it’s a must");
+addMustDo(lat, lng, "Must Do", "Type", ["img.jpg"], "link", "Why it matters");
 ```
 
-### 4. Restaurants / Food (🍕 Orange food markers)
+### 4. Food – Orange Fork Markers (🍕)
 
 ```js
-addFood(lat, lng, "Restaurant Name", "Type",
-    ["photo1.jpg"],
-    "https://link.com",
-    "What’s great here");
+addFood(lat, lng, "Food Place", "Cuisine", ["img.jpg"], "link", "Highlights");
+```
+
+### 5. Cafes – Coffee Markers (☕)
+
+```js
+addCafe(lat, lng, "Cafe", "Type", ["img.jpg"], "link", "Details");
 ```
 
 ---
 
 ## 🏨 Add Hotels to Path Points
 
-Add this inside the `hotels` array of a path point:
-
 ```js
 {
   name: "Hotel Name",
-  type: "🏡 Agriturismo",
-  description: "Charming hillside stay...",
-  link: "https://hotel.com",
+  type: "🏡 Boutique Stay",
+  description: "Short summary...",
+  link: "https://link.com",
   photos: ["hotel1.jpg"],
-  roomPhotos: ["room1.jpg", "room2.jpg"]
+  roomPhotos: ["room1.jpg"]
 }
 ```
-
-* Users can toggle between exterior and room views.
 
 ---
 
 ## 🎛 Legend Filter (Bottom Left)
 
-* Click to show only one marker type (⭐ / ❤️ / 🍕)
-* Click again to show all markers
-* Path points (📍) always remain visible
+| Action              | Result                     |
+| ------------------- | -------------------------- |
+| Click ⭐ / 🍕 / ☕    | Show only that marker type |
+| Click again         | Reset to show all          |
+| 📍 & ❤️ always show | Not affected by filters    |
 
 ---
 
 ## ↺ Cycle Button (Top Center)
 
-* Cycles through each main stop (📍 Path Point)
-* Dim unrelated markers and shows content panel for that stop
-* Click again for “Full Trip” mode
+Cycles through each `📍` path point:
+
+* Focus map
+* Show side panel
+* Dim unrelated markers
 
 ---
 
 ## ⬅️➡️ Marker Navigation
 
-* Arrows appear when multiple markers of same type exist
-* Cycles through ⭐, ❤️, or 🍕 markers only
+Appears when multiple same-type markers exist:
+
+* Navigate ⭐ / ❤️ / 🍕 / ☕ clusters
 
 ---
 
 ## 🖼 Photo Carousel
 
-* Automatically loops images from marker data
-* Navigation arrows + dot indicators
-* Image error handling + fallback message
+* Dot + arrow navigation
+* Handles image load failure
+* Swaps between room & hotel photos
 
 ---
 
 ## 🏷️ Auto-Generated Keywords
 
-* Extracted from `type` and `description`
-* Tags appear in side panel for visual reference
+* Extracted from `type` & `description`
+* Helps filter content visually
 
 ---
 
 ## ⚙️ Marker Classes (CSS)
 
-### Marker Types
-
-* `.number-marker` = Path point
-* `.star-marker` = ⭐ Activity
-* `.heart-marker` = ❤️ Must-Do
-* `.food-marker` = 🍕 Food Spot
-
-### Sizing
-
-* `.size-large` / `.size-medium` / `.size-small` / `.size-tiny`
+| Class            | Purpose                    |
+| ---------------- | -------------------------- |
+| `.number-marker` | Path point                 |
+| `.heart-marker`  | Must-do                    |
+| `.star-marker`   | Activity                   |
+| `.food-marker`   | Food                       |
+| `.cafe-marker`   | Cafe                       |
+| `.size-large`    | Enlarged state             |
+| `.size-medium`   | Default state              |
+| `.size-small`    | De-emphasized contextually |
+| `.size-tiny`     | Zoomed-out distant marker  |
 
 ---
 
 ## 🧪 Dev Utility Functions (script.js)
 
-* `drawPath()` – Connects path points
-* `cycleToNextStage()` – Trigger stage-by-stage cycling
-* `fitMapToLocations()` – Zooms out to fit all markers
-* `showClickOverlay(item)` – Opens info panel
-* `createImageCarousel(photos)` – Renders image slides
-* `updateActivityDisplay(showAll, point)` – Adjusts visibility + size
+* `drawPath()` – Connects path points with arrows
+* `cycleToNextStage()` – Stage-based navigation
+* `fitMapToLocations()` – Auto-centers all markers
+* `updateActivityDisplay(showAll, point)` – Zoom or cycle logic
+* `createImageCarousel()` – Gallery rendering
 
 ---
 
 ## 📐 How to Find Coordinates
 
 1. Open Google Maps
-2. Right-click → Copy Latitude, Longitude
-3. Paste into any `add` function call:
+2. Right-click a location → Copy lat,lng
+3. Paste into any `add...()` function
 
 ```js
-addPathPoint(43.7696, 11.2558, "Florence", ...);
+addCafe(43.7696, 11.2558, "My Cafe", ...);
 ```
 
 ---
 
 ## 🛠️ What You Can Customize
 
-* Add/remove path stops, activities, food spots, hotels
-* Use hosted or local images for each marker
-* Style all elements in `styles.css`
-* Extend interactivity (e.g., map themes, date planning, reviews)
+* Add new marker types (like ☕)
+* Adjust `zoomend` logic for marker visibility
+* Modify styles in `styles.css`
+* Add overlays for reviews or planning
+* Expand hotel data with amenities
 
 ---
 
 ## 🧯 Troubleshooting Tips
 
-* **Map doesn't show?** Use local server or deploy via GitHub Pages
-* **Photos don’t load?** Double-check file path or image URL
-* **Markers overlap?** Use distinct lat/lng per location
-* **Nothing happens on click?** Ensure marker was created with the correct `add` function
+| Problem                  | Likely Cause                       |
+| ------------------------ | ---------------------------------- |
+| Map not loading          | Tile server issue or no internet   |
+| Marker click not working | Event not attached or overwritten  |
+| Images not showing       | URL typo or blocked domain         |
+| Filters behave oddly     | Check `data-type` and filter logic |
 
 ---
 
 ## 🧪 Sample Code Snippet
 
 ```js
-addPathPoint(43.8100, 11.2051, "Florence Airport", "Arrival in Tuscany",
-    ["https://example.com/airport.jpg"], "https://link.com");
+addPathPoint(43.8100, 11.2051, "Florence Airport", "Arrival",
+  ["https://img.com/airport.jpg"], "https://airport.com");
 
-addMustDo(43.7761, 11.2494, "Accademia Gallery", "Art Museum",
-    ["https://example.com/gallery.jpg"], "https://uffizi.it",
-    "See Michelangelo's David");
+addMustDo(43.7761, 11.2494, "Accademia Gallery", "Museum",
+  ["https://img.com/gallery.jpg"], "https://uffizi.it", "See David");
 
-addFood(43.7733, 11.2556, "Trattoria Mario", "Traditional",
-    ["https://example.com/mario.jpg"], "",
-    "Beloved Florentine steak house");
+addFood(43.7733, 11.2556, "Trattoria Mario", "Tuscan",
+  ["https://img.com/mario.jpg"], "", "Bistecca alla Fiorentina");
 ```
 
 ---
 
 ## 🗟 Legend Symbols
 
-| Icon | Meaning                      |
-| ---- | ---------------------------- |
-| 📍   | Main trip stage (path point) |
-| ⭐    | Activity                     |
-| ❤️   | Must-do experience           |
-| 🍕   | Food & dining                |
+| Icon | Meaning                |
+| ---- | ---------------------- |
+| 📍   | Main stop              |
+| ⭐    | Activity               |
+| ❤️   | Must-Do                |
+| 🍕   | Food / Restaurant      |
+| ☕    | Cafe / Coffee / Bakery |
