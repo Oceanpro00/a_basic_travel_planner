@@ -1,6 +1,8 @@
 # Basic Travel Planner
 
-**Basic Travel Planner** is a modular, self-hosted travel visualization tool for mapping multi-stop trips with rich detail. Built entirely with Leaflet.js and vanilla JavaScript, it enables creators, travelers, and developers to design flexible, interactive itineraries with **zero backend dependencies**.
+**Basic Travel Planner** is a modular, self-hosted **trip planning and visualization system** for building interactive, multi-stop travel maps. Built entirely with Leaflet.js and vanilla JavaScript, it now includes both a full-featured **Planner UI** and a clean **Viewer UI**, offering a seamless way to create, preview, and share detailed itineraries — all without a database or server.
+
+Whether you're a creator crafting a trip journal, a traveler organizing an adventure, or a developer prototyping ideas, this planner offers complete flexibility, privacy, and portability.
 
 This project aims to offer an elegant alternative to bloated, ad-ridden, or paywalled travel planning tools. With it, you can:
 
@@ -28,69 +30,134 @@ Whether you're crafting a travel journal, pitching a trip idea, or building a pe
 
 ## Screenshots
 
-### Location Detail Popup
+### 🛠 Planner UI
 
-![Location Detail](https://raw.githubusercontent.com/Oceanpro00/a_basic_travel_planner/main/assets/location_data.png)
+Design your trip with tabs for path points, activities, and cafes. Input photos, locations, and organize your stops visually.
 
-### Route and Stage Markers
+![Main Path Point](./assets/main_path_point_ui.png)
+![Activities Tab](./assets/activities_page_ui.png)
+![Hotel Info Input](./assets/hotel_info_input_block.png)
 
-![Start of Route](https://raw.githubusercontent.com/Oceanpro00/a_basic_travel_planner/main/assets/route_planning.png)
+---
 
-### Activity Overlay with Tags
+### 📄 Generated Code Preview
 
-![Activity Detail](https://raw.githubusercontent.com/Oceanpro00/a_basic_travel_planner/main/assets/activity_data.png)
+Instantly export your full trip as a shareable or deployable `tripData.js` file.
+
+![Generated Code](./assets/generated_code_block_can_download.png)
+
+---
+
+### 🗺️ Trip Viewer (Map Mode)
+
+Display your finished trip on a clean, interactive Leaflet.js map with filter toggles, zoom visibility, and overlay carousels.
+
+![Interactive Map](./assets/travel_example_map.png)
+![Overlay View – Val d'Orcia](./assets/location_data.png)
+
 
 ## Live Demos
 
 * **Tuscany Trip Example:** [View Planner](https://oceanpro00.github.io/a_basic_travel_planner/tuscany/)
 * **Minimal Starter Version:** [View Basic Example](https://oceanpro00.github.io/a_basic_travel_planner/example/)
+* **GitHub Repo:** [github.com/Oceanpro00/a\_basic\_travel\_planner](https://oceanpro00.github.io/a_basic_travel_planner/ez_travel_planner/)
 * **GitHub Repo:** [github.com/Oceanpro00/a\_basic\_travel\_planner](https://github.com/Oceanpro00/a_basic_travel_planner)
 
 ---
 
 ## Features
 
-* Fully client-side: no backend, no database
-* Map powered by Leaflet.js with custom marker styling
-* Clickable stops, activities, food spots, and must-do highlights
-* Visual legend to filter marker types (Activity, Must-Do, Food)
-* Side panel with:
+* 💻 Fully client-side: no backend, no database
+* 🗺️ Built with Leaflet.js and custom modular JavaScript
+* ✨ Now includes two UIs:
+  - **Planner UI** for drag-and-drop itinerary building
+  - **Viewer UI** for clean, interactive trip previews
+* 📍 Clickable markers for path points, activities, food, must-dos, and cafes
+* 🧭 Auto-centering map with zoom-level filtering
+* 🎨 Side panel overlays with:
+  - Image carousels (room vs. exterior toggle for hotels)
+  - Keyword tags auto-generated from description/type
+  - Smart handling of broken/missing images
+* 📱 Mobile-optimized layout and touch interaction
+* 🧩 Visual map legend with individual marker filters (⭐ / ❤️ / 🍕 / ☕)
 
-  * Image carousel
-  * Description, link, and auto-tagged keywords
-  * Toggle for hotel exterior vs. room views
-* Responsive layout and mobile-ready behavior
+Use this planner to:
+- Share personalized itineraries with friends or clients
+- Build regional trip guides or travel journals
+- Prototype ideas for editorial or content workflows
 
-* Use this tool to:
+---
 
-- Share personalized trip plans with friends or clients
-- Build region-specific travel previews
-- Prototype travel ideas for content creation or editorial pitches
+## Planner vs Viewer
 
+This project now supports two complementary interfaces:
+
+### 🛠️ Planner UI
+Accessible at `/docs/ez_travel_planner/`, the Planner UI is an input-driven trip builder that allows for:
+
+- Adding and editing markers (Path Points, Must-Dos, Activities, Food, Cafes) through a guided form interface
+- Reordering stops using a drag-and-drop UI
+- Instantly previewing all changes on the live map
+- Generating the final `tripData.js` code dynamically—no manual coding required
+
+Perfect for creators who want structure, flexibility, and real-time visualization without editing raw JavaScript.
+
+### 🌍 Viewer UI
+Used for polished trip presentation and sharing:
+
+- Reads from a pre-generated `tripData.js` file
+- Displays a clean, interactive itinerary with overlays and images
+- Supports hotel photo toggles, activity filtering, mobile responsiveness, and smooth animations
+
+Use the **Planner UI** to build and customize your trip, then publish it using the **Viewer UI** for a seamless, offline-capable experience.
 
 ---
 
 ## Getting Started
 
-To reproduce or deploy this project:
+You can start building your trip in two ways, depending on your preference:
 
-1. Clone or fork the repository
-2. Open `/docs/tripData.js`
+### 🛠️ Option 1: Use the Planner UI (Recommended)
 
-   * Use `addPathPoint()`, `addActivity()`, `addMustDo()`, and `addFood()`
-3. Open `/docs/index.html` in any browser or deploy via GitHub Pages
-4. Edit `tripTitle` to change the document title
+1. Open `/docs/ez_travel_planner/index.html` in your browser.
+2. Add markers through the input interface: Path Points, Must-Dos, Activities, Food, and Cafes.
+3. Reorder trip stages using drag-and-drop.
+4. Instantly preview your changes on the live map.
+5. When ready, copy the auto-generated code block for `tripData.js`.
+6. Paste this into your preferred Viewer folder (e.g. `/docs/tuscany/tripData.js`) for publishing.
+
+This interface is best for creators who want to avoid manual code editing and see real-time map updates as they plan.
+
+---
+
+### 💻 Option 2: Manual Setup (For Developers)
+
+1. Clone or fork the repository.
+2. Navigate to your desired Viewer folder (e.g. `/docs/tuscany/`) and open `tripData.js`.
+3. Add locations using:
+   - `addPathPoint()`
+   - `addMustDo()`
+   - `addActivity()`
+   - `addFood()`
+   - `addCafe()`
+4. Open the corresponding `index.html` in your browser or deploy the folder using GitHub Pages.
+5. Customize the `tripTitle` variable to update the page title.
 
 ---
 
 ## Customize Your Trip
 
-* Modify any location or marker in `tripData.js`
-* Use direct image URLs or local files in `/assets`
-* Add hotels per stop with room and exterior photo options
-* All layout and visual design lives in `styles.css`
+All trip content is stored in a single `tripData.js` file.
 
-📘 Need full documentation? See [`basic_travel_planner_cheatsheet.md`](./basic_travel_planner_cheatsheet.md)
+You can:
+
+- Use direct URLs or locally stored images from the `/assets` folder
+- Include hotel listings with separate exterior and room photo sets
+- Add optional links, tags, and descriptions for each marker
+- Customize the entire visual style via `styles.css` in each folder
+- Choose between multiple Viewer templates (e.g. `tuscany`, `example`) to suit your layout or theme
+
+📘 Full documentation available: [`basic_travel_planner_cheatsheet.md`](./docs/tuscany/basic_travel_planner_cheatsheet.md)
 
 ---
 
@@ -117,13 +184,28 @@ The result is a lightweight planner that can be easily customized or extended, s
 ## Project Structure
 
 ```
-CHANGELOG.md         # Optional separate changelog (matches README entries)
+CHANGELOG.md # Changelog (detailed updates)
+README.md # Main documentation
+
 /docs
-├── index.html        # Main app file
-├── script.js         # App logic & interactivity
-├── styles.css        # All styling & animations
-├── tripData.js       # Trip configuration
-/assets               # Static images (optional)
+├── ez_travel_planner/ # Main planner + viewer system
+│ ├── index.html # Drag-and-drop Planner UI
+│ ├── styles.css
+│ └── js/
+│ ├── core-app.js # Main app initialization
+│ ├── item-creators.js # Marker creation (addActivity, addMustDo, etc.)
+│ ├── code-generator.js # Auto-generates tripData code
+│ ├── drag-drop.js # Handles draggable element creation and interaction
+│ ├── ui-helpers.js # Utility classes for UI states and toggles
+│ └── data-manager.js # JSON restoration, data merging
+├── ez_travel_planner/map/ # Viewer UI with map only
+│ ├── index.html
+│ ├── styles.css
+│ ├── script.js # Viewer-specific logic
+│ ├── tripData.js # Main trip data file (to be generated or edited)
+│ └── live-reader.js # Pulls live JSON from input field
+├── tuscany/ # Example trip demo: Tuscany
+├── example/ # Minimal starter template
 ```
 
 Set GitHub Pages to deploy from the `/docs` folder.
@@ -132,27 +214,30 @@ Set GitHub Pages to deploy from the `/docs` folder.
 
 ## Update
 
-### v0.4.0 – May 26, 2025
+### v0.5.0 – May 27, 2025
 
-- Introduced 🟨 zoom-level visibility logic (zoom in to reveal activities/food/cafes)
-- New marker type: ☕ Cafe (added support, icon, filter, and behavior)
-- Map auto-centering now dynamically fits all path points on load
-- Side panel carousel now better handles missing/invalid images
-- Rewritten developer cheat sheet with detailed usage breakdown
-- Refined mobile responsiveness and scaling behavior
-- Minor fixes for overlay transitions and marker z-index stacking
+- Modular restructure: clear separation between the Planner (editor) and Viewer (presentation) interfaces
+- New input-based trip creation system with live map previews and drag-and-drop reordering
+- Minimalist Viewer UI for read-only itineraries using either localStorage or a static tripData.js
+- Added fallback logic for broken or missing image URLs in the carousel
+- Enhanced mobile responsiveness and smoother overlay transitions
+- Updated live-reader.js to support real-time map updates directly from the Planner
+- Visual and structural improvements to documentation and sample deployment folders (`/example/`, `/tuscany/`, `/map/`)
+- All screenshots and illustrations in the README updated to reflect the current UI
 
 ---
 
-## Future Ideas
+## Future Roadmap
 
-The current version is a strong foundation, but future iterations may include:
+This project is designed to remain flexible, simple, and browser-based. Planned improvements include:
 
-* A drag-and-drop UI planner for trip building
-* AI-generated day-by-day itineraries based on your stops
-* Optional date & timeline integration
-* Theme support (dark mode, city-specific looks)
-* Export to printable PDF or shareable links
+- A more visual editor experience with block-style inputs and collapsible sections
+- AI-assisted itinerary generation based on entered locations or regions
+- Optional calendar-based trip planning features (start and end dates, daily breakdowns)
+- Support for theme customization (dark mode, destination-based designs)
+- One-click export to shareable links, zipped trip folders, or PDF print formats
+
+Feedback, forks, and suggestions are always welcome.
 
 ---
 

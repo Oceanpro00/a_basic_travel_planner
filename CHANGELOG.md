@@ -4,6 +4,31 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
+## v0.5.0 – May 27, 2025
+
+### 🚀 Features
+
+- **Modular interface structure:** The project now cleanly separates the Planner UI (`/docs/ez_travel_planner/`) and Viewer UI (`/docs/ez_travel_planner/map/`), allowing users to independently plan and present trips.
+- **Input-based planning workflow:** Replaced manual `tripData.js` editing with structured input blocks (Path Point, Must-Do, Activity, Cafe, Hotel) that auto-generate the code while reflecting live changes on the map.
+- **Live trip preview:** All marker additions and edits update instantly on the map panel, improving clarity and feedback during planning.
+- **LocalStorage persistence:** Unfinished sessions are saved automatically in-browser. If no trip has been started, a two-point sample trip is preloaded as a starter guide.
+- **"New Trip" logic:** Added button to clear current trip from storage and revert to sample trip, improving user onboarding and control.
+
+### 🧪 Refactors & Improvements
+
+- **Overlay cleanup:** Refined sidebar visual spacing and photo carousels. Added logic to suppress overlays for markers without sufficient data.
+- **Improved image fallback:** Carousel now uses a placeholder when encountering broken or missing URLs. Default height set to avoid layout shifts.
+- **Z-index layering fix:** Proper stacking behavior across markers and overlays ensures more predictable click handling.
+- **Mobile polish:** Increased space between button footer and map when fully scrolled. Footer is now transparent to avoid layout blocking.
+
+### 📝 Documentation
+
+- **README enhancements:** Clarified Planner vs Viewer usage. Added updated screenshots showing each marker type, overlay, and interface view.
+- **Cheatsheet updates:** Fully restructured with updated marker functions (`addCafe`, etc.), photo best practices, and section breakdowns.
+- **Folder restructuring:** Introduced `/docs/example/` and `/docs/tuscany/` as clean, deployable sample trips using the viewer interface.
+
+---
+
 ## v0.4.0 – May 26, 2025
 
 ### 🚀 Features

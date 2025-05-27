@@ -33,3 +33,9 @@ addFood(43.7733, 11.2556, "Mercato Centrale", "Food Market",
     ["photo1.jpg"], 
     "https://example.com", 
     "Great local food");
+
+// Example: Add cafes
+addCafe(43.7712, 11.2560, "Ditta Artigianale", "Cafe",
+    ["photo1.jpg"], 
+    "https://dittartigianale.it", 
+    "Trendy local cafe known for great espresso");

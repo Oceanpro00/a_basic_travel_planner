@@ -204,6 +204,44 @@ body {
     z-index: 1000;
 }
 
+/* Cafe markers (☕ cafes) */
+.cafe-marker {
+    color: #7b5e57;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    cursor: pointer;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.cafe-marker:hover {
+    transform: scale(1.4) !important;
+    filter: brightness(1.2);
+    z-index: 1000;
+}
+
+.cafe-marker.hidden {
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+/* Marker sizes */
+.cafe-marker.size-large {
+    font-size: 32px;
+}
+
+.cafe-marker.size-medium {
+    font-size: 26px;
+}
+
+.cafe-marker.size-small {
+    font-size: 20px;
+}
+
+.cafe-marker.size-tiny {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
 /* Common marker states */
 .star-marker.hidden,
 .heart-marker.hidden,
@@ -242,9 +280,9 @@ body {
     opacity: 0.7;
 }
 
-/* Path elements */
+/* Path elements - change to give hidden objects some opacity */
 .leaflet-interactive.hidden {
-    opacity: 0.2;
+    opacity: 0.00;   
 }
 
 /* Side panel overlay */

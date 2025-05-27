@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-bar">
+        <!-- Trip Title Section -->
+        <div class="trip-info">
+            <input type="text" id="tripTitle" class="trip-name" placeholder="My Amazing Trip" oninput="autoSave()">
+            <button class="save-btn" onclick="saveTrip()" title="Save Trip">💾</button>
+        </div>
+        
+        <!-- Live Statistics -->
+        <div class="stats">
+            <span class="stat-item">
+                <span class="stat-number" id="pathPointCount">0</span>
+                <span class="stat-label">Stops</span>
+            </span>
+            <span class="stat-item">
+                <span class="stat-number" id="activityCount">0</span>
+                <span class="stat-label">Activities</span>
+            </span>
+            <span class="stat-item">
+                <span class="stat-number" id="hotelCount">0</span>
+                <span class="stat-label">Hotels</span>
+            </span>
+        </div>
+        
+        <!-- Map Toggle Button -->
+        <div class="map-section">
+            <button class="new-trip-btn" onclick="showNewTripDialog()" title="Start New Trip">
+                🆕 New Trip
+            </button>
+            <button class="import-btn" onclick="importTripFromFile()" title="Import Trip File">
+                📁 Import
+            </button>
+            <button class="map-toggle" onclick="toggleMapView()" title="Toggle Map View">
+                <span id="mapToggleText">View Map</span> 🗺️
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Tab Navigation -->
+        <nav class="tabs">
+            <button class="tab active" data-tab="path-points" onclick="switchTab('path-points')">Path Points</button>
+            <button class="tab" data-tab="activities" onclick="switchTab('activities')">Activities</button>
+            <button class="tab" data-tab="code-output" onclick="switchTab('code-output')">Generated Code</button>
+        </nav>
+
+        <!-- Path Points Tab -->
+        <section id="path-points" class="tab-content active">
+            <div id="pathPointsList" class="items-container"></div>
+            <div class="fixed-add-button">
+                <button class="add-button primary" onclick="addNewPathPoint()">📍 Add Path Point</button>
+            </div>
+        </section>
+        
+        <!-- Activities Tab -->
+        <section id="activities" class="tab-content">
+        <!-- Subtab Controls -->
+        <nav class="marker-subtabs">
+            <button class="subtab active" data-subtab="activity" onclick="switchMarkerSubtab('activity')">⭐ Activities</button>
+            <button class="subtab" data-subtab="food" onclick="switchMarkerSubtab('food')">🍕 Restaurants</button>
+            <button class="subtab" data-subtab="cafe" onclick="switchMarkerSubtab('cafe')">☕ Cafes</button>
+        </nav>
+
+        <!-- Subtab Content Containers -->
+        <div class="marker-subtab-content">
+            <div id="activitiesList_activity" class="items-container marker-tab active"></div>
+            <div id="activitiesList_food" class="items-container marker-tab"></div>
+            <div id="activitiesList_cafe" class="items-container marker-tab"></div>
+        </div>
+
+        <!-- Fixed Add Button -->
+        <div class="fixed-add-button">
+            <button class="add-button primary" onclick="addMarkerOfSelectedType()">+ Add</button>
+        </div>
+        </section>
+
+        <!-- Code Output Tab -->
+        <section id="code-output" class="tab-content">
+            <!-- Code Box Header with Actions -->
+            <div class="code-header">
+                <h3>Generated tripData.js</h3>
+                <div class="code-actions">
+                    <button class="code-button" onclick="copyCode()" title="Copy Code">
+                        📋 Copy
+                    </button>
+                    <button class="code-button" onclick="downloadTripData()" title="Download tripData.js">
+                        ⬇️ Download
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Code Display Box -->
+            <div class="code-container">
+                <pre><code id="generatedCode" class="code-display"></code></pre>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Notifications Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Load JavaScript Files in Order -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="js/ui-helpers.js"></script>
+    <script src="js/data-manager.js"></script>
+    <script src="js/item-creators.js"></script>
+    <script src="js/code-generator.js"></script>
+    <script src="js/drag-drop.js"></script>
+    <script src="js/core-app.js"></script>
+</body>
+</html>
