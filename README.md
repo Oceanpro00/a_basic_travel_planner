@@ -19,6 +19,7 @@ Whether you're crafting a travel journal, pitching a trip idea, or building a pe
 
 * [Live Demos](#live-demos)
 * [Features](#features)
+* [Features](#Planner-vs-Viewer)
 * [Getting Started](#getting-started)
 * [Customize Your Trip](#customize-your-trip)
 * [Tech Stack](#tech-stack)
@@ -58,9 +59,9 @@ Display your finished trip on a clean, interactive Leaflet.js map with filter to
 
 ## Live Demos
 
+* **EZ Travel Planner:** [github.com/Oceanpro00/a\_basic\_travel\_planner](https://oceanpro00.github.io/a_basic_travel_planner/ez_travel_planner/)
 * **Tuscany Trip Example:** [View Planner](https://oceanpro00.github.io/a_basic_travel_planner/tuscany/)
 * **Minimal Starter Version:** [View Basic Example](https://oceanpro00.github.io/a_basic_travel_planner/example/)
-* **GitHub Repo:** [github.com/Oceanpro00/a\_basic\_travel\_planner](https://oceanpro00.github.io/a_basic_travel_planner/ez_travel_planner/)
 * **GitHub Repo:** [github.com/Oceanpro00/a\_basic\_travel\_planner](https://github.com/Oceanpro00/a_basic_travel_planner)
 
 ---
