@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner Project</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Travel Planner Project</h1>
+            <p class="hero-subtitle">A modular, browser-based system for planning and sharing interactive travel maps</p>
+            <p class="hero-context">
+                Created as a passion project while learning web development and data science — built using a mix of custom logic and AI-assisted coding workflows.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Versions Section -->
+        <section class="section">
+            <div class="section-content">
+                <h2>Project Versions</h2>
+                <p class="section-intro">Each version serves different use cases, from static map display to interactive trip planning:</p>
+                
+                <div class="version-grid">
+                    <!-- Version 0.1 -->
+                    <article class="version-card">
+                        <div class="version-header">
+                            <h3>v0.1 – Static Map Viewer</h3>
+                            <span class="version-badge">Display Only</span>
+                        </div>
+                        
+                        <p class="version-description">
+                            Read-only map display where trip data is pre-configured. Perfect for showcasing completed itineraries.
+                        </p>
+                        
+                        <div class="version-details">
+                            <div class="detail-section">
+                                <h4 class="detail-title">✓ Best for:</h4>
+                                <ul class="detail-list">
+                                    <li>Developers who want maximum control and customization</li>
+                                    <li>Projects requiring multiple trip variations (easy to swap data files)</li>
+                                    <li>Lightweight embedding in existing web applications</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h4 class="detail-title">✗ Limitations:</h4>
+                                <ul class="detail-list">
+                                    <li>Requires coding knowledge to set up and modify</li>
+                                    <li>Manual process for adding or changing locations</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="version-actions">
+                            <a href="./versions/v0.1_manual_map/tuscany/index.html" class="btn btn-primary" target="_blank" rel="noopener">View Tuscany Demo</a>
+                            <a href="https://github.com/Oceanpro00/a_basic_travel_planner/tree/main/docs/versions/v0.1_manual_map/empty_template" class="btn btn-secondary" target="_blank" rel="noopener">Download Empty Template</a>
+                            <button class="btn btn-ai-tip" onclick="openAITipsModal()" title="AI Tips for Fast Trip Creation">
+                                ⚡ AI Tips
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Version 0.2 -->
+                    <article class="version-card">
+                        <div class="version-header">
+                            <h3>v0.2 – Interactive Planner</h3>
+                            <span class="version-badge">Interactive</span>
+                        </div>
+                        
+                        <p class="version-description">
+                            Full-featured browser-based planner with drag-and-drop interface. Build custom trips and preview changes in real-time.
+                        </p>
+                        
+                        <div class="version-details">
+                            <div class="detail-section">
+                                <h4 class="detail-title">✓ Best for:</h4>
+                                <ul class="detail-list">
+                                    <li>Users who want to build trip maps but can't/won't write code</li>
+                                    <li>Learning how trip data structures work through a visual interface</li>
+                                    <li>Situations where you want immediate visual feedback while building</li>
+                                    <li>Importing AI-generated trip data or copying code from other sources</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h4 class="detail-title">✗ Limitations:</h4>
+                                <ul class="detail-list">
+                                    <li>Tedious one-by-one input process (slower than bulk coding)</li>
+                                    <li>Manual location entry only (no autocomplete or search)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="version-actions">
+                            <a href="./versions/v0.2_manual_planner/index.html" class="btn btn-primary" target="_blank" rel="noopener">Launch Planner</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screenshots Section -->
+        <section class="section">
+            <div class="section-content">
+                <h2>Interface Previews</h2>
+                
+                <div class="screenshot-grid">
+                    <figure class="screenshot-item">
+                        <img src="./assets/travel_example_map.png" alt="Interactive map with trip markers and route" loading="lazy">
+                        <figcaption>Interactive Trip Map View</figcaption>
+                    </figure>
+                    <figure class="screenshot-item">
+                        <img src="./assets/main_path_point_ui.png" alt="Trip planning interface with input forms" loading="lazy">
+                        <figcaption>Trip Planning Interface</figcaption>
+                    </figure>
+                    <figure class="screenshot-item">
+                        <img src="./assets/location_data.png" alt="Location detail overlay with photos and information" loading="lazy">
+                        <figcaption>Location Detail Overlays</figcaption>
+                    </figure>
+                    <figure class="screenshot-item">
+                        <img src="./assets/generated_code_block_can_download.png" alt="Generated code export feature" loading="lazy">
+                        <figcaption>Code Export & Download</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section">
+            <div class="section-content">
+                <h2>About This Project</h2>
+                
+                <div class="about-text">
+                    <p>
+                        This travel planner represents one of my early full-scale web development projects — part of my self-guided learning journey into frontend development, product design, and data visualization.
+                    </p>
+                    <p>
+                        The project was built using a collaborative approach with generative AI tools (ChatGPT, Claude) to help me experiment, debug, and push beyond my current comfort zone. While I have other projects where I worked fully independently, this one specifically showcases my ability to build and adapt with AI collaboration in mind.
+                    </p>
+                    <p>
+                        The focus has been on creating a modular, privacy-first alternative to commercial travel planning tools — one that works entirely in the browser without requiring accounts, databases, or data collection. While we may introduce optional convenience features in the future (autocomplete, cloud sync, AI integration), <strong>all core functionalities will remain free and accessible</strong>. Any premium features will be ad-free and only added to enhance the experience, never to lock away basic functionality.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Usage Guide -->
+        <section class="section">
+            <div class="section-content">
+                <h2>How to Use This Planner</h2>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Choose Your Version</h3>
+                            <p>Pick the version that matches your needs — static viewer for showcasing trips, or interactive planner for building new itineraries.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Plan Your Trip</h3>
+                            <p>Use the planner interface to add locations, activities, and hotels, or manually edit the tripData.js file for the static version.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Share & Deploy</h3>
+                            <p>Export your trip data, host using GitHub Pages, or share screenshots and links with friends and travel companions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Section -->
+        <section class="section">
+            <div class="section-content">
+                <h2>Technical Implementation</h2>
+                
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <h3>🌐 Web Technologies</h3>
+                        <p>Built with vanilla HTML, CSS, and JavaScript — no frameworks or build tools required.</p>
+                    </div>
+                    <div class="tech-item">
+                        <h3>🗺️ Mapping Engine</h3>
+                        <p>Powered by Leaflet.js for interactive maps with custom markers and overlays.</p>
+                    </div>
+                    <div class="tech-item">
+                        <h3>🔒 Privacy-First</h3>
+                        <p>Fully client-side operation with no data collection, tracking, or external dependencies.</p>
+                    </div>
+                    <div class="tech-item">
+                        <h3>📱 Mobile Optimized</h3>
+                        <p>Responsive design with touch-friendly interfaces for planning on any device.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://github.com/Oceanpro00/a_basic_travel_planner" class="btn btn-outline">
+                    View Source Code
+                </a>
+                <a href="https://github.com/Oceanpro00/a_basic_travel_planner/blob/main/CHANGELOG.md" class="btn btn-outline">
+                    View Changelog
+                </a>
+            </div>
+            
+            <div class="footer-note">
+                <p>Hosted via GitHub Pages • Built with passion for learning and exploration</p>
+                <p class="recruiter-note">
+                    <strong>For recruiters:</strong> I'm happy to walk through my intentions and design decisions for this build — it demonstrates my approach to learning and building with AI collaboration, though I don't claim full understanding of all AI-generated code.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Tips Modal -->
+    <div id="aiTipsModal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>⚡ AI-Powered Trip Creation</h3>
+                <button class="modal-close" onclick="closeAITipsModal()">&times;</button>
+            </div>
+            
+            <div class="modal-content">
+                <div class="tip-section">
+                    <h4>🚀 Why Use AI for Trip Data?</h4>
+                    <ul class="tip-list">
+                        <li><strong>Much faster</strong> than the v0.2 UI for large trips (20+ locations)</li>
+                        <li><strong>More comprehensive</strong> - AI suggests places you might miss</li>
+                        <li><strong>Perfect coordinates</strong> - AI is surprisingly accurate with lat/lng</li>
+                        <li><strong>Consistent formatting</strong> - follows the exact API structure</li>
+                    </ul>
+                </div>
+
+                <div class="tip-section">
+                    <h4>📋 Step-by-Step Process</h4>
+                    <ol class="tip-steps">
+                        <li>
+                            <strong>Get the Resources:</strong>
+                            <div class="resource-links">
+                                <a href="./versions/v0.1_manual_map/tuscany/basic_travel_planner_cheatsheet.md" class="resource-link" target="_blank">📖 Download Cheat Sheet</a>
+                                <a href="./versions/v0.1_manual_map/tuscany/tripData.js" class="resource-link" target="_blank">📝 View Example tripData.js</a>
+                            </div>
+                        </li>
+                        <li><strong>Open ChatGPT</strong> (free version works perfectly)</li>
+                        <li><strong>Upload both files</strong> or copy-paste their contents</li>
+                        <li><strong>Use this prompt template:</strong></li>
+                    </ol>
+                </div>
+
+                <div class="tip-section">
+                    <h4>💬 Copy These Prompts</h4>
+                    
+                    <div class="prompt-option">
+                        <h5>Option A: Complete Trip Generation</h5>
+                        <div class="prompt-box">
+                            <div class="prompt-text">
+Create a tripData.js file for a [X-day trip to LOCATION].<br>
+Use the API functions from the uploaded cheat sheet.<br><br>
+
+Include:<br>
+- 5-8 path points (main cities/areas)<br>
+- 10-15 activities and must-dos<br>
+- 8-12 restaurants and cafes<br>
+- Hotel suggestions for each path point<br>
+- Real coordinates (lat/lng)<br>
+- Placeholder photo URLs (I'll replace these myself)<br><br>
+
+Follow the structure from the uploaded example file.
+                            </div>
+                            <button class="copy-prompt-btn" onclick="copyPrompt('complete')">📋 Copy Prompt A</button>
+                        </div>
+                    </div>
+
+                    <div class="prompt-option">
+                        <h5>Option B: Build Around Your Interests</h5>
+                        <div class="prompt-box">
+                            <div class="prompt-text">
+Create a tripData.js file for [LOCATION] focused on [YOUR INTERESTS].<br>
+Use the API functions from the uploaded cheat sheet.<br><br>
+
+I specifically want to include:<br>
+- [Specific place 1] - because [reason]<br>
+- [Specific place 2] - because [reason]<br>
+- [Activity type] experiences<br>
+- [Food preference] restaurants<br><br>
+
+Build a complete trip around these priorities, adding complementary locations.<br>
+Include real coordinates and placeholder photo URLs.<br>
+Follow the structure from the uploaded example.
+                            </div>
+                            <button class="copy-prompt-btn" onclick="copyPrompt('custom')">📋 Copy Prompt B</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-section">
+                    <h4>⚡ Pro Tips</h4>
+                    <ul class="tip-list">
+                        <li><strong>Be specific:</strong> "Focus on art museums and local food markets"</li>
+                        <li><strong>Include must-sees:</strong> "I definitely want to visit [specific place]"</li>
+                        <li><strong>Set the vibe:</strong> "Budget-friendly" or "luxury travel" or "family-friendly"</li>
+                        <li><strong>Photo warning:</strong> AI photo URLs are usually broken - replace them yourself</li>
+                        <li><strong>Iterate easily:</strong> Ask for adjustments like "Add more cafes in downtown area"</li>
+                    </ul>
+                </div>
+
+                <div class="tip-section">
+                    <h4>🎯 After AI Generation</h4>
+                    <ol class="tip-steps">
+                        <li>Copy the generated <code>tripData.js</code> code</li>
+                        <li>Download the <a href="./versions/v0.1_manual_map/empty_template/index.html" target="_blank">empty template</a></li>
+                        <li>Replace the <code>tripData.js</code> file with your generated code</li>
+                        <li>Add real photo URLs (this step is crucial!)</li>
+                        <li>Open <code>index.html</code> locally or deploy to any hosting service</li>
+                    </ol>
+                </div>
+
+                <div class="tip-section highlight">
+                    <h4>💡 Example Result</h4>
+                    <p>A 7-day Portugal trip generated in <strong>2 minutes</strong> with AI vs. <strong>45+ minutes</strong> using the manual UI. The AI version included 25 locations with perfect coordinates and detailed descriptions!</p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeAITipsModal()">Got It! 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js" type="module"></script>
+</body>
+</html>

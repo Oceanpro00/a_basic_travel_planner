@@ -4,6 +4,44 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
+## v0.5.1 – June 5, 2025
+
+### 🏗️ Structure & Portfolio
+
+- **Versioned Directory:** Reorganized into `/docs/versions/` with v0.1 and v0.2 separated for clarity and maintainability  
+- **Portfolio Landing Page:** New `/docs/index.html` with version links, screenshots, and a project overview  
+- **Improved Deployment:** GitHub Pages setup optimized for navigation and professional presentation  
+- **Direct Template Access:** Simple access to starter templates via direct GitHub links  
+
+### 🎨 UX & Design
+
+- **AI Workflow Guide:** Added modal with two prompt types for ChatGPT trip planning  
+- **Cleaner UI:** Professional design system with consistent typography and reduced emojis  
+- **Grid Fixes:** Screenshot and feature grids now use clean 2x2 layout  
+- **New Tab Behavior:** Version links open in new tabs for better flow  
+
+### 📝 Docs & Messaging
+
+- **AI Disclosure:** Transparent notes on AI-assisted development and learning focus  
+- **Roadmap Clarity:** Clear distinction between current features and future goals  
+- **Import Guide:** Improved instructions for importing AI-generated data  
+- **Version Use Cases:** Defined v0.1 as developer-focused, v0.2 as non-coder friendly  
+
+### 🛠️ Infrastructure
+
+- **File Clean-Up:** Separated showcase files from live versions  
+- **Asset Paths:** Fixed relative paths and added fallbacks for missing images  
+- **Local Analytics:** Simple, privacy-first interaction logging  
+- **Modular Codebase:** Portfolio JS structured using core design principles  
+
+### 🎯 Positioning
+
+- **Honest Framing:** Removed inflated claims and clarified learning-driven scope  
+- **Recruiter-Friendly:** Highlighted intentional design and educational value  
+- **Project Framing:** Defined as a passion project showcasing AI collaboration  
+
+---
+
 ## v0.5.0 – May 27, 2025
 
 ### 🚀 Features
