@@ -41,6 +41,7 @@ Whether you're crafting a travel journal, pitching a trip idea, or building a pe
 * **🌐 Portfolio Landing:** [View All Versions](https://oceanpro00.github.io/a_basic_travel_planner/)
 * **🗺️ v0.1 Static Viewer:** [Tuscany Demo](https://oceanpro00.github.io/a_basic_travel_planner/versions/v0.1_manual_map/tuscany/)
 * **🛠️ v0.2 Interactive Planner:** [Launch Planner](https://oceanpro00.github.io/a_basic_travel_planner/versions/v0.2_manual_planner/)
+* **🧪 v0.3 Experimental:** [Try on Vercel](https://basic-travel-planner-vercel.vercel.app/) *(Development Build)*
 * **📂 GitHub Repository:** [github.com/Oceanpro00/a_basic_travel_planner](https://github.com/Oceanpro00/a_basic_travel_planner)
 
 ---
@@ -105,6 +106,27 @@ Full-featured browser-based planner with drag-and-drop interface. Build custom t
 4. Preview your complete trip on the live map
 5. Export generated code for deployment
 
+### 🧪 **v0.3 – Experimental Build** (Development)
+
+**Advanced version with smart autocomplete, visual code formatting, and enhanced map rendering.** Still under active development with known bugs and incomplete features.
+
+#### **✨ Key Improvements:**
+- **Smart autocomplete system** with location search and intelligent caching
+- **Visual code formatting** and syntax highlighting in the code generation tab  
+- **Enhanced map rendering** with improved marker sorting and visual hierarchy
+- **Category toggle system** for better organization of trip elements
+
+#### **⚠️ Known Issues:**
+- Autocomplete cache not persisting correctly between sessions
+- Minor UI glitches and layout issues on some mobile devices
+- Several integrations and workflows still in development
+
+#### **Access:**
+- **Live Demo:** [Try Experimental Version on Vercel](https://basic-travel-planner-vercel.vercel.app/)
+- **Status:** Development sandbox - may break or behave inconsistently
+- **Repository:** Development occurs in a private repository to protect API keys and prevent abuse
+- **Recommendation:** Use stable v0.2 for reliable trip planning
+
 ---
 
 ## Screenshots
@@ -153,9 +175,10 @@ Rich, interactive maps with detailed overlays, photo carousels, and mobile-optim
 
 * **💻 Fully Client-Side:** No backend, database, or server required
 * **🗺️ Interactive Mapping:** Built with Leaflet.js and custom JavaScript modules
-* **✨ Dual Interface Design:** 
-  - **Static Viewer** for showcasing completed trips
-  - **Interactive Planner** for building and organizing itineraries
+* **✨ Multi-Version Design:** 
+  - **Static Viewer (v0.1)** for showcasing completed trips
+  - **Interactive Planner (v0.2)** for building and organizing itineraries
+  - **Experimental Build (v0.3)** with advanced features and smart autocomplete
 * **📍 Rich Marker System:** Support for path points, activities, restaurants, cafes, and hotels
 * **🧭 Smart Map Features:** Auto-centering, zoom-based filtering, and responsive controls
 
@@ -193,6 +216,11 @@ Rich, interactive maps with detailed overlays, photo carousels, and mobile-optim
 - Learning trip data structures through guided form input
 - Situations where you want immediate visual feedback while building
 - Users who prefer the safety of forms over raw code (despite being slower)
+
+**v0.3 Experimental Build:**
+- Developers testing advanced features like autocomplete and enhanced UI
+- Users wanting the latest features and willing to accept some instability
+- Testing ground for future stable feature integration
 
 ---
 
@@ -720,7 +748,7 @@ I'm happy to walk through both AI-assisted and independent projects to show the 
 
 ## Changelog
 
-### v0.5.1 – June 5, 2025 (Current)
+### v0.2.1 – June 5, 2025 (Current)
 
 **🏗️ Repository Reorganization**
 - **Versioned Structure:** Complete reorganization into `/docs/versions/` with clear v0.1 and v0.2 separation
@@ -734,7 +762,7 @@ I'm happy to walk through both AI-assisted and independent projects to show the 
 - **Mobile Optimization:** Improved mobile experience across all versions
 - **Screenshot Updates:** Current interface previews and feature demonstrations
 
-### v0.5.0 – May 27, 2025
+### v0.2.0 – May 27, 2025
 
 **🚀 Major Features**
 - **Modular Interface Structure:** Clean separation between Planner UI and Viewer UI
@@ -742,6 +770,14 @@ I'm happy to walk through both AI-assisted and independent projects to show the 
 - **Live Trip Preview:** Real-time map updates during planning
 - **LocalStorage Persistence:** Automatic session saving and trip management
 - **Export Functionality:** Auto-generated `tripData.js` code with download capability
+
+### v0.1.2 – May 26, 2025
+
+**🚀 Static Viewer Enhancements**
+- **Zoom-based visibility system:** Dynamic marker display based on zoom level
+- **New cafe marker type:** Dedicated support for coffee shops and casual dining
+- **Auto-centering:** Automatic map bounds fitting for all path points
+- **Independent filtering:** Toggle individual marker types in the legend
 
 For complete version history, see [CHANGELOG.md](./CHANGELOG.md).
 
@@ -753,7 +789,7 @@ This project is designed to remain flexible, simple, and browser-based. Planned 
 
 ### 🎯 Short-Term Goals (Next 3-6 months)
 - **Enhanced Editor Experience:** Block-style inputs with collapsible sections and better organization
-- **Location Autocomplete:** Integration with geocoding APIs for easier location entry
+- **Stable Autocomplete:** Migrate experimental v0.3 autocomplete features to stable v0.2
 - **Import/Export Features:** Support for common travel planning file formats
 - **Accessibility Improvements:** Enhanced keyboard navigation and screen reader support
 

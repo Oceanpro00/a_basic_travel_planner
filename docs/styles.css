@@ -107,9 +107,19 @@ body {
 
 .version-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 60px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
     margin-top: 80px;
+    justify-items: center;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.version-grid .version-card:nth-child(3) {
+    grid-column: 1 / -1;
+    max-width: 550px;
+    width: 100%;
 }
 
 .version-card {
@@ -118,6 +128,8 @@ body {
     border-radius: 12px;
     padding: 40px;
     transition: all 0.2s ease;
+    width: 100%;
+    max-width: 550px;
 }
 
 .version-card:hover {
@@ -209,6 +221,42 @@ body {
 }
 
 /* ==================================================
+   EXPERIMENTAL VERSION CARD
+   ================================================== */
+
+.experimental-card {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fefbf3, #ffffff);
+}
+
+.experimental-card:hover {
+    border-color: #d97706;
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+}
+
+.experimental-badge {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.experimental-disclaimer-card {
+    background: #fef3cd;
+    border: 1px solid #f59e0b;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 24px;
+}
+
+.experimental-disclaimer-card p {
+    color: #92400e;
+    font-size: 13px;
+    margin: 0;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+/* ==================================================
    BUTTONS
    ================================================== */
 
@@ -224,6 +272,7 @@ body {
     transition: all 0.2s ease;
     border: 1px solid transparent;
     gap: 8px;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -291,6 +340,20 @@ body {
     animation: shimmer 2s ease-in-out infinite;
 }
 
+.btn-experimental {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #ffffff;
+    border-color: #f59e0b;
+    font-weight: 600;
+}
+
+.btn-experimental:hover {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-color: #d97706;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
 @keyframes shimmer {
     0%, 100% { opacity: 0.8; }
     50% { opacity: 1; }
@@ -307,7 +370,7 @@ body {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 1000;
@@ -786,8 +849,14 @@ body {
         margin-top: 60px;
     }
     
+    .version-grid .version-card:nth-child(3) {
+        grid-column: 1;
+        max-width: none;
+    }
+    
     .version-card {
         padding: 32px 24px;
+        max-width: none;
     }
     
     .version-header {

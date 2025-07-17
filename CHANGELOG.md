@@ -4,7 +4,37 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
-## v0.5.1 – June 5, 2025
+## v0.3.0 – Experimental Build – Ongoing Development
+
+### 🧪 Experimental Features
+
+- **Smart Autocomplete System:** Location search with intelligent suggestions and caching
+- **Visual Code Generation:** Syntax highlighting and color formatting in export tab
+- **Enhanced Map Rendering:** Improved marker sorting and visual hierarchy
+- **Category Toggle System:** Better organization of trip elements with type-based filtering
+
+### ⚠️ Known Development Issues
+
+- **Cache Persistence:** Autocomplete cache not maintaining data between sessions
+- **Mobile UI:** Minor layout glitches and responsive design issues on some devices
+- **Feature Completeness:** Several integrations and workflows still in development
+
+### 🚀 Deployment
+
+- **Platform:** Vercel serverless deployment with edge functions
+- **Status:** Active development sandbox - not recommended for production use
+- **Access:** Available at [basic-travel-planner-vercel.vercel.app](https://basic-travel-planner-vercel.vercel.app/)
+
+### 📋 Development Notes
+
+- Built as testing ground for advanced features before stable integration
+- Incorporates user feedback from v0.1 and v0.2 releases
+- **Private Repository:** Due to work-in-progress API integrations, v0.3.0 development occurs in a private repository to protect API keys from public exposure and potential abuse
+- Regular updates and iterations based on experimental results
+
+---
+
+## v0.2.1 – June 5, 2025
 
 ### 🏗️ Structure & Portfolio
 
@@ -42,7 +72,7 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
-## v0.5.0 – May 27, 2025
+## v0.2.0 – May 27, 2025
 
 ### 🚀 Features
 
@@ -67,7 +97,7 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
-## v0.4.0 – May 26, 2025
+## v0.1.2 – May 26, 2025
 
 ### 🚀 Features
 
@@ -90,7 +120,7 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
-## v0.3.0 – May 25, 2025
+## v0.1.1 – May 25, 2025
 
 ### ✨ Refactors & Improvements
 
@@ -108,7 +138,7 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
-## v0.2.0 – May 23, 2025
+## v0.1.0 – May 23, 2025
 
 ### 🚀 Features
 
@@ -125,7 +155,7 @@ This file documents the key changes made to the project across each version. It 
 
 ---
 
-## v0.1.0 – May 21, 2025
+## v0.0.1 – May 21, 2025
 
 ### 🛠 Initial Build
 

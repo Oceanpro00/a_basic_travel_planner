@@ -33,20 +33,11 @@ function handleImageError(event) {
     
     // Create clean placeholder
     const placeholder = document.createElement('div');
-    placeholder.style.cssText = `
-        width: 100%;
-        height: 240px;
-        background: #f5f5f5;
-        border: 1px solid #e5e5e5;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
+    placeholder.className = 'screenshot-placeholder';
+    placeholder.innerHTML = `
+        <span>🖼️</span>
+        <p>Preview Coming Soon</p>
     `;
-    placeholder.textContent = '🖼️ Preview Coming Soon';
     
     if (figure) {
         figure.replaceChild(placeholder, img);
@@ -213,173 +204,39 @@ function trackSectionView(entries) {
 }
 
 /* ==================================================
-   SMOOTH SCROLL ENHANCEMENTS
-   ================================================== */
-
-function setupSmoothScrolling() {
-    // Enhanced smooth scrolling for anchor links
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    
-    anchorLinks.forEach(link => {
-        link.addEventListener('click', handleSmoothScroll);
-    });
-}
-
-function handleSmoothScroll(event) {
-    const href = event.target.getAttribute('href');
-    
-    if (href && href.startsWith('#')) {
-        const target = document.querySelector(href);
-        
-        if (target) {
-            event.preventDefault();
-            
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-            
-            // Update URL without jumping
-            if (history.pushState) {
-                history.pushState(null, null, href);
-            }
-        }
-    }
-}
-
-/* ==================================================
-   PERFORMANCE MONITORING
-   ================================================== */
-
-function logPerformanceMetrics() {
-    // Simple performance tracking for optimization insights
-    if (window.performance && window.performance.timing) {
-        const timing = window.performance.timing;
-        const loadTime = timing.loadEventEnd - timing.navigationStart;
-        const domReady = timing.domContentLoadedEventEnd - timing.navigationStart;
-        
-        console.log(`Portfolio loaded in ${loadTime}ms (DOM ready: ${domReady}ms)`);
-        
-        // Store performance data locally for optimization insights
-        if (typeof Storage !== 'undefined') {
-            const perfData = {
-                timestamp: new Date().toISOString(),
-                loadTime: loadTime,
-                domReady: domReady,
-                viewport: `${window.innerWidth}x${window.innerHeight}`
-            };
-            
-            localStorage.setItem('portfolioPerformance', JSON.stringify(perfData));
-        }
-    }
-}
-
-/* ==================================================
-   UTILITY FUNCTIONS
-   ================================================== */
-
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func.apply(this, args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-}
-
-/* ==================================================
-   ERROR HANDLING
-   ================================================== */
-
-function setupErrorHandling() {
-    window.addEventListener('error', handleGlobalError);
-    window.addEventListener('unhandledrejection', handlePromiseRejection);
-}
-
-function handleGlobalError(event) {
-    console.warn('Portfolio error:', event.error);
-    
-    // Log errors locally for debugging (no external reporting)
-    if (typeof Storage !== 'undefined') {
-        const errors = JSON.parse(localStorage.getItem('portfolioErrors') || '[]');
-        
-        errors.push({
-            timestamp: new Date().toISOString(),
-            message: event.error?.message || 'Unknown error',
-            filename: event.filename,
-            line: event.lineno
-        });
-        
-        // Keep only last 10 errors
-        if (errors.length > 10) {
-            errors.splice(0, errors.length - 10);
-        }
-        
-        localStorage.setItem('portfolioErrors', JSON.stringify(errors));
-    }
-}
-
-function handlePromiseRejection(event) {
-    console.warn('Unhandled promise rejection:', event.reason);
-    
-    // Prevent default browser error handling for minor issues
-    if (event.reason && typeof event.reason === 'string' && 
-        event.reason.includes('NetworkError')) {
-        event.preventDefault();
-    }
-}
-
-/* ==================================================
-   INITIALIZATION
-   ================================================== */
-
-// Initialize everything when page is fully loaded
-window.addEventListener('load', () => {
-    logPerformanceMetrics();
-    setupErrorHandling();
-    setupSmoothScrolling();
-});
-
-// Export functions for potential debugging
-window.PortfolioDebug = {
-    getVisits: () => JSON.parse(localStorage.getItem('portfolioVisits') || '[]'),
-    getInteractions: () => JSON.parse(localStorage.getItem('portfolioInteractions') || '[]'),
-    getSectionViews: () => JSON.parse(localStorage.getItem('portfolioSectionViews') || '[]'),
-    getPerformance: () => JSON.parse(localStorage.getItem('portfolioPerformance') || '{}'),
-    getErrors: () => JSON.parse(localStorage.getItem('portfolioErrors') || '[]'),
-    clearData: () => {
-        localStorage.removeItem('portfolioVisits');
-        localStorage.removeItem('portfolioInteractions');
-        localStorage.removeItem('portfolioSectionViews');
-        localStorage.removeItem('portfolioPerformance');
-        localStorage.removeItem('portfolioErrors');
-        console.log('Portfolio analytics data cleared');
-    }
-};
-
-/* ==================================================
-   AI TIPS MODAL FUNCTIONALITY
+   MODAL HANDLERS
    ================================================== */
 
 function setupModalHandlers() {
-    // Ensure modal event listeners are set up
+    // Set up AI Tips modal event listeners
+    const aiTipsButton = document.getElementById('aiTipsButton');
     const modal = document.getElementById('aiTipsModal');
+    const modalCloseButton = document.getElementById('modalCloseButton');
+    const modalFooterCloseButton = document.getElementById('modalFooterCloseButton');
+    
+    // Open modal button
+    if (aiTipsButton) {
+        aiTipsButton.addEventListener('click', openAITipsModal);
+    }
+    
+    // Close modal buttons
+    if (modalCloseButton) {
+        modalCloseButton.addEventListener('click', closeAITipsModal);
+    }
+    
+    if (modalFooterCloseButton) {
+        modalFooterCloseButton.addEventListener('click', closeAITipsModal);
+    }
+    
+    // Set up copy prompt buttons
+    const copyButtons = document.querySelectorAll('.copy-prompt-btn');
+    copyButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            const promptType = event.target.getAttribute('data-prompt-type');
+            copyPrompt(promptType);
+        });
+    });
+    
     if (modal) {
         // Close modal when clicking outside
         modal.addEventListener('click', (event) => {
@@ -532,14 +389,166 @@ function showCopyFeedback(type, success = true) {
     }, 2000);
 }
 
-// Make functions globally available for onclick handlers
-window.openAITipsModal = openAITipsModal;
-window.closeAITipsModal = closeAITipsModal;
-window.copyPrompt = copyPrompt;
-
 /* ==================================================
-   EMPTY TEMPLATE DOWNLOAD FUNCTIONALITY - REMOVED
-   Now links directly to GitHub
+   SMOOTH SCROLL ENHANCEMENTS
    ================================================== */
 
-// Template download functionality removed - now uses direct GitHub link
+function setupSmoothScrolling() {
+    // Enhanced smooth scrolling for anchor links
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', handleSmoothScroll);
+    });
+}
+
+function handleSmoothScroll(event) {
+    const href = event.target.getAttribute('href');
+    
+    if (href && href.startsWith('#')) {
+        const target = document.querySelector(href);
+        
+        if (target) {
+            event.preventDefault();
+            
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Update URL without jumping
+            if (history.pushState) {
+                history.pushState(null, null, href);
+            }
+        }
+    }
+}
+
+/* ==================================================
+   PERFORMANCE MONITORING
+   ================================================== */
+
+function logPerformanceMetrics() {
+    // Simple performance tracking for optimization insights
+    if (window.performance && window.performance.timing) {
+        const timing = window.performance.timing;
+        const loadTime = timing.loadEventEnd - timing.navigationStart;
+        const domReady = timing.domContentLoadedEventEnd - timing.navigationStart;
+        
+        console.log(`Portfolio loaded in ${loadTime}ms (DOM ready: ${domReady}ms)`);
+        
+        // Store performance data locally for optimization insights
+        if (typeof Storage !== 'undefined') {
+            const perfData = {
+                timestamp: new Date().toISOString(),
+                loadTime: loadTime,
+                domReady: domReady,
+                viewport: `${window.innerWidth}x${window.innerHeight}`
+            };
+            
+            localStorage.setItem('portfolioPerformance', JSON.stringify(perfData));
+        }
+    }
+}
+
+/* ==================================================
+   UTILITY FUNCTIONS
+   ================================================== */
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+/* ==================================================
+   ERROR HANDLING
+   ================================================== */
+
+function setupErrorHandling() {
+    window.addEventListener('error', handleGlobalError);
+    window.addEventListener('unhandledrejection', handlePromiseRejection);
+}
+
+function handleGlobalError(event) {
+    console.warn('Portfolio error:', event.error);
+    
+    // Log errors locally for debugging (no external reporting)
+    if (typeof Storage !== 'undefined') {
+        const errors = JSON.parse(localStorage.getItem('portfolioErrors') || '[]');
+        
+        errors.push({
+            timestamp: new Date().toISOString(),
+            message: event.error?.message || 'Unknown error',
+            filename: event.filename,
+            line: event.lineno
+        });
+        
+        // Keep only last 10 errors
+        if (errors.length > 10) {
+            errors.splice(0, errors.length - 10);
+        }
+        
+        localStorage.setItem('portfolioErrors', JSON.stringify(errors));
+    }
+}
+
+function handlePromiseRejection(event) {
+    console.warn('Unhandled promise rejection:', event.reason);
+    
+    // Prevent default browser error handling for minor issues
+    if (event.reason && typeof event.reason === 'string' && 
+        event.reason.includes('NetworkError')) {
+        event.preventDefault();
+    }
+}
+
+/* ==================================================
+   INITIALIZATION
+   ================================================== */
+
+// Initialize everything when page is fully loaded
+window.addEventListener('load', () => {
+    logPerformanceMetrics();
+    setupErrorHandling();
+    setupSmoothScrolling();
+});
+
+// Make functions globally available for debugging only
+window.PortfolioDebug = {
+    openAITipsModal: openAITipsModal,
+    closeAITipsModal: closeAITipsModal,
+    copyPrompt: copyPrompt,
+    getVisits: () => JSON.parse(localStorage.getItem('portfolioVisits') || '[]'),
+    getInteractions: () => JSON.parse(localStorage.getItem('portfolioInteractions') || '[]'),
+    getSectionViews: () => JSON.parse(localStorage.getItem('portfolioSectionViews') || '[]'),
+    getPerformance: () => JSON.parse(localStorage.getItem('portfolioPerformance') || '{}'),
+    getErrors: () => JSON.parse(localStorage.getItem('portfolioErrors') || '[]'),
+    clearData: () => {
+        localStorage.removeItem('portfolioVisits');
+        localStorage.removeItem('portfolioInteractions');
+        localStorage.removeItem('portfolioSectionViews');
+        localStorage.removeItem('portfolioPerformance');
+        localStorage.removeItem('portfolioErrors');
+        console.log('Portfolio analytics data cleared');
+    }
+};
